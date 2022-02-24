@@ -1,0 +1,1 @@
+# featws-resolver-adapter-go
