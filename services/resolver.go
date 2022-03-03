@@ -14,14 +14,14 @@ var resolverFunc ResolverFunc
 
 // ResolveInput contains all input for resolver execution
 type ResolveInput struct {
-	Context map[string]interface{} "json:'context'"
-	Load    []string               "json:'load'"
+	Context map[string]interface{} `json:"context"`
+	Load    []string               `json:"load"`
 }
 
 // ResolveOutput contais all output of resolver execution
 type ResolveOutput struct {
-	Context map[string]interface{}
-	Errors  map[string]interface{}
+	Context map[string]interface{} `json:"context"`
+	Errors  map[string]interface{} `json:"errors"`
 }
 
 // SetupResolver to config the current resolver func
