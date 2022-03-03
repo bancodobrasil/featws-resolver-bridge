@@ -8,11 +8,15 @@ import (
 
 //Config ...
 type Config struct {
-	Port string `mapstructure:"PORT"`
+	Port     string `mapstructure:"PORT"`
+	MongoURI string `mapstructure:"FEATWS_RESOLVER_BRIDGE_MONGO_URI"`
+	MongoDB  string `mapstructure:"FEATWS_RESOLVER_BRIDGE_MONGO_DB"`
 }
 
+var config = &Config{}
+
 //LoadConfig ...
-func LoadConfig(config *Config) (err error) {
+func LoadConfig() (err error) {
 	viper.AddConfigPath("./")
 	viper.SetConfigFile(".env")
 	viper.SetConfigType("env")
@@ -20,6 +24,8 @@ func LoadConfig(config *Config) (err error) {
 	viper.AutomaticEnv()
 
 	viper.SetDefault("PORT", "9000")
+	viper.SetDefault("FEATWS_RESOLVER_BRIDGE_MONGO_URI", "mongodb://localhost:27017/")
+	viper.SetDefault("FEATWS_RESOLVER_BRIDGE_MONGO_DB", "resolverBridge")
 
 	err = viper.ReadInConfig()
 	if err != nil {
@@ -32,4 +38,8 @@ func LoadConfig(config *Config) (err error) {
 	err = viper.Unmarshal(config)
 
 	return
+}
+
+func GetConfig() *Config {
+	return config
 }

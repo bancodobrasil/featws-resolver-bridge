@@ -5,6 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func resolverRouter(router *gin.RouterGroup) {
-	router.POST("/", v1.ResolverHandler)
+func resolversRouter(router *gin.RouterGroup) {
+	router.POST("/", v1.CreateResolver())
 }
