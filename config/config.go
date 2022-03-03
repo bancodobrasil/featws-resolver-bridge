@@ -8,7 +8,7 @@ import (
 
 //Config ...
 type Config struct {
-	Port string `mapstructure:"FEATWS_RESOLVER_PORT"`
+	Port string `mapstructure:"PORT"`
 }
 
 //LoadConfig ...
@@ -19,7 +19,7 @@ func LoadConfig(config *Config) (err error) {
 
 	viper.AutomaticEnv()
 
-	viper.SetDefault("FEATWS_RESOLVER_PORT", "7000")
+	viper.SetDefault("PORT", "7000")
 
 	err = viper.ReadInConfig()
 	if err != nil {
