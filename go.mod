@@ -1,4 +1,4 @@
-module github.com/bancodobrasil/featws-resolver-adapter-go
+module github.com/bancodobrasil/featws-resolver-bridge
 
 go 1.16
 

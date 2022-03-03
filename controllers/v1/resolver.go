@@ -3,7 +3,7 @@ package v1
 import (
 	"net/http"
 
-	"github.com/bancodobrasil/featws-resolver-adapter-go/services"
+	"github.com/bancodobrasil/featws-resolver-bridge/services"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/bancodobrasil/featws-resolver-adapter-go/controllers"
+	"github.com/bancodobrasil/featws-resolver-bridge/controllers"
 	"github.com/gin-gonic/gin"
 )
 

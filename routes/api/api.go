@@ -1,7 +1,7 @@
 package api
 
 import (
-	v1 "github.com/bancodobrasil/featws-resolver-adapter-go/routes/api/v1"
+	v1 "github.com/bancodobrasil/featws-resolver-bridge/routes/api/v1"
 	"github.com/gin-gonic/gin"
 )
 

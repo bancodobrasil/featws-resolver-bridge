@@ -1,1 +1,1 @@
-# featws-resolver-adapter-go
+# featws-resolver-bridge

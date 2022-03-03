@@ -19,7 +19,7 @@ func LoadConfig(config *Config) (err error) {
 
 	viper.AutomaticEnv()
 
-	viper.SetDefault("PORT", "7000")
+	viper.SetDefault("PORT", "9000")
 
 	err = viper.ReadInConfig()
 	if err != nil {
