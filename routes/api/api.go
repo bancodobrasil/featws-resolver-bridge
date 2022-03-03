@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ApiRouter(router *gin.RouterGroup) {
-	v1.V1Router(router.Group("/v1"))
+// Router define routes the API
+func Router(router *gin.RouterGroup) {
+	v1.Router(router.Group("/v1"))
 }

@@ -5,35 +5,33 @@ import (
 	"sync"
 )
 
+// ResolverFunc define the Resolver Function structure
+type ResolverFunc func(ResolveInput, *ResolveOutput)
+
 var lock = &sync.Mutex{}
 
-type ResolverService struct {
-	resolverFunc ResolverFunc
-}
+var resolverFunc ResolverFunc
 
-var instance *ResolverService
-
+// ResolveInput contains all input for resolver execution
 type ResolveInput struct {
 	Context map[string]interface{} "json:'context'"
 	Load    []string               "json:'load'"
 }
 
+// ResolveOutput contais all output of resolver execution
 type ResolveOutput struct {
 	Context map[string]interface{}
 	Errors  map[string]interface{}
 }
 
-type ResolverFunc func(ResolveInput, *ResolveOutput)
-
-func SetupResolver(resolverFunc ResolverFunc) {
+// SetupResolver to config the current resolver func
+func SetupResolver(rFunc ResolverFunc) {
 	lock.Lock()
 	defer lock.Unlock()
-	if instance == nil {
-		if instance == nil {
+	if resolverFunc == nil {
+		if resolverFunc == nil {
 			fmt.Println("Creating single instance now.")
-			instance = &ResolverService{
-				resolverFunc: resolverFunc,
-			}
+			resolverFunc = rFunc
 		} else {
 			fmt.Println("Single instance already created.")
 		}
@@ -42,12 +40,13 @@ func SetupResolver(resolverFunc ResolverFunc) {
 	}
 }
 
+// Resolve to execute the resolver
 func Resolve(input ResolveInput) (output *ResolveOutput) {
 	output = &ResolveOutput{
 		Context: input.Context,
 		Errors:  make(map[string]interface{}),
 	}
-	instance.resolverFunc(input, output)
+	resolverFunc(input, output)
 
 	if len(input.Load) > 0 {
 		oldContext := output.Context

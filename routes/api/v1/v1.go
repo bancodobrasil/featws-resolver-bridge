@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func V1Router(router *gin.RouterGroup) {
+// Router define routes the API V1
+func Router(router *gin.RouterGroup) {
 	resolverRouter(router.Group("/resolver"))
 }

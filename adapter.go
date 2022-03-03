@@ -18,8 +18,10 @@ func setupLog() {
 	log.SetLevel(log.DebugLevel)
 }
 
+// Config contains all settings of module
 var Config = config.Config{}
 
+// Run start the resolver server with resolverFunc
 func Run(resolverFunc services.ResolverFunc) {
 
 	setupLog()

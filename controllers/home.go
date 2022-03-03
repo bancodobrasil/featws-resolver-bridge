@@ -13,6 +13,7 @@ import (
 
 // }
 
+// HomeHandler ...
 func HomeHandler(c *gin.Context) {
 	c.String(http.StatusOK, "FeatWS Resolver Works!!!")
 }

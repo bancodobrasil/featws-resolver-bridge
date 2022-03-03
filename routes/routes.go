@@ -5,8 +5,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// SetupRoutes define all routes
 func SetupRoutes(router *gin.Engine) {
 
 	homeRouter(router.Group("/"))
-	api.ApiRouter(router.Group("/api"))
+	api.Router(router.Group("/api"))
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// ResolverHandler ...
 func ResolverHandler(c *gin.Context) {
 	var input services.ResolveInput
 	if err := c.ShouldBindJSON(&input); err != nil {
