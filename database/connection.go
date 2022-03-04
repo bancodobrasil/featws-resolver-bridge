@@ -27,13 +27,13 @@ func ConnectDB() {
 
 	ctx, calcel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer calcel()
-	err = client.Connect(ctx)
+	err = cli.Connect(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	//ping the database
-	err = client.Ping(ctx, nil)
+	err = cli.Ping(ctx, nil)
 	if err != nil {
 		log.Fatal(err)
 	}

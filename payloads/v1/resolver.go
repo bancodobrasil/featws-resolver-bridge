@@ -6,7 +6,7 @@ package v1
 // 	Load    []string               `json:"load"`
 // }
 type Resolver struct {
-	ID      interface{}       `json:"id,omitempty"`
+	ID      string            `json:"id,omitempty"`
 	Name    string            `json:"name,omitempty" validate:"required"`
 	URL     string            `json:"url,omitempty" validate:"required"`
 	Headers map[string]string `json:"headers,omitempty"`

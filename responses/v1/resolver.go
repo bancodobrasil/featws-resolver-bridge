@@ -8,7 +8,7 @@ import "github.com/bancodobrasil/featws-resolver-bridge/models"
 // 	Errors  map[string]interface{} `json:"errors"`
 // }
 type Resolver struct {
-	ID      interface{}       `json:"id,omitempty"`
+	ID      string            `json:"id,omitempty"`
 	Name    string            `json:"name,omitempty"`
 	URL     string            `json:"url,omitempty"`
 	Headers map[string]string `json:"headers,omitempty"`
@@ -17,7 +17,7 @@ type Resolver struct {
 // NewResolver ...
 func NewResolver(entity models.Resolver) Resolver {
 	return Resolver{
-		ID:      entity.ID,
+		ID:      entity.ID.Hex(),
 		Name:    entity.Name,
 		URL:     entity.URL,
 		Headers: entity.Headers,

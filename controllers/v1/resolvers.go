@@ -18,7 +18,7 @@ func CreateResolver() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		var payload *payloads.Resolver
+		var payload payloads.Resolver
 		defer cancel()
 
 		// validate the request body
@@ -36,9 +36,7 @@ func CreateResolver() gin.HandlerFunc {
 			return
 		}
 
-		var entity = models.NewResolverV1(*payload)
-
-		err := services.CreateResolver(ctx, entity)
+		entity, err := models.NewResolverV1(payload)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, responses.Error{
 				Error: err.Error(),
@@ -46,7 +44,41 @@ func CreateResolver() gin.HandlerFunc {
 			return
 		}
 
-		var response = responses.NewResolver(*entity)
+		err = services.CreateResolver(ctx, &entity)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.Error{
+				Error: err.Error(),
+			})
+			return
+		}
+
+		var response = responses.NewResolver(entity)
+
+		c.JSON(http.StatusCreated, response)
+	}
+}
+
+// GetResolvers ...
+func GetResolvers() gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		entities, err := services.FetchResolvers(ctx)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.Error{
+				Error: err.Error(),
+			})
+			return
+		}
+
+		var response = make([]responses.Resolver, len(entities))
+
+		for index, entity := range entities {
+			response[index] = responses.NewResolver(entity)
+		}
 
 		c.JSON(http.StatusCreated, response)
 	}

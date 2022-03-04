@@ -7,4 +7,5 @@ import (
 
 func resolversRouter(router *gin.RouterGroup) {
 	router.POST("/", v1.CreateResolver())
+	router.GET("/", v1.GetResolvers())
 }

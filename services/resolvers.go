@@ -8,16 +8,27 @@ import (
 )
 
 // CreateResolver ...
-func CreateResolver(ctx context.Context, resolver *models.Resolver) error {
+func CreateResolver(ctx context.Context, resolver *models.Resolver) (err error) {
 
 	//TODO verifica unicidade do nome
 
-	err := repository.GetResolversRepository().Create(ctx, resolver)
+	err = repository.GetResolversRepository().Create(ctx, resolver)
 	if err != nil {
-		return err
+		return
 	}
 
-	return nil
+	return
+}
+
+// FetchResolvers ...
+func FetchResolvers(ctx context.Context) (result []models.Resolver, err error) {
+
+	result, err = repository.GetResolversRepository().Find(ctx)
+	if err != nil {
+		return
+	}
+
+	return
 }
 
 // func GetAResolver() gin.HandlerFunc {

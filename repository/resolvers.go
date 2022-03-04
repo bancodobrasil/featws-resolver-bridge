@@ -5,6 +5,8 @@ import (
 
 	"github.com/bancodobrasil/featws-resolver-bridge/database"
 	"github.com/bancodobrasil/featws-resolver-bridge/models"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -25,14 +27,34 @@ func GetResolversRepository() Resolvers {
 }
 
 // Create ...
-func (s Resolvers) Create(ctx context.Context, resolver *models.Resolver) error {
+func (r Resolvers) Create(ctx context.Context, resolver *models.Resolver) error {
 
-	result, err := s.collection.InsertOne(ctx, resolver)
+	result, err := r.collection.InsertOne(ctx, resolver)
 	if err != nil {
 		return err
 	}
 
-	resolver.ID = result.InsertedID
+	resolver.ID = result.InsertedID.(primitive.ObjectID)
 
 	return nil
+}
+
+// Find ...
+func (r Resolvers) Find(ctx context.Context) (list []models.Resolver, err error) {
+	results, err := r.collection.Find(ctx, bson.M{})
+	if err != nil {
+		return
+	}
+
+	defer results.Close(ctx)
+	for results.Next(ctx) {
+		var resolver models.Resolver
+		if err = results.Decode(&resolver); err != nil {
+			return
+		}
+
+		list = append(list, resolver)
+	}
+
+	return
 }
