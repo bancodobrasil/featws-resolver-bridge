@@ -40,6 +40,7 @@ func LoadConfig() (err error) {
 	return
 }
 
+// GetConfig ...
 func GetConfig() *Config {
 	return config
 }

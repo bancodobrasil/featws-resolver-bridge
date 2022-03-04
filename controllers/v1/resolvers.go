@@ -6,35 +6,39 @@ import (
 	"time"
 
 	"github.com/bancodobrasil/featws-resolver-bridge/models"
+	payloads "github.com/bancodobrasil/featws-resolver-bridge/payloads/v1"
 	responses "github.com/bancodobrasil/featws-resolver-bridge/responses/v1"
 	"github.com/bancodobrasil/featws-resolver-bridge/services"
 	"github.com/gin-gonic/gin"
 )
 
+// CreateResolver ...
 func CreateResolver() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		var resolver *models.Resolver
+		var payload *payloads.Resolver
 		defer cancel()
 
 		// validate the request body
-		if err := c.BindJSON(&resolver); err != nil {
+		if err := c.BindJSON(&payload); err != nil {
 			c.JSON(http.StatusBadRequest, responses.Error{
 				Error: err.Error(),
 			})
 		}
 
 		// use the validator libraty to validate required fields
-		if validationErr := validate.Struct(&resolver); validationErr != nil {
+		if validationErr := validate.Struct(&payload); validationErr != nil {
 			c.JSON(http.StatusBadRequest, responses.Error{
 				Error: validationErr.Error(),
 			})
 			return
 		}
 
-		err := services.GetResolversService().Create(ctx, resolver)
+		var entity = models.NewResolverV1(*payload)
+
+		err := services.CreateResolver(ctx, entity)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, responses.Error{
 				Error: err.Error(),
@@ -42,7 +46,9 @@ func CreateResolver() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusCreated, resolver)
+		var response = responses.NewResolver(*entity)
+
+		c.JSON(http.StatusCreated, response)
 	}
 }
 

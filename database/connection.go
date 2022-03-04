@@ -11,6 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+// ConnectDB ...
 func ConnectDB() {
 
 	cfg := config.GetConfig()
@@ -19,7 +20,7 @@ func ConnectDB() {
 		return
 	}
 
-	client, err := mongo.NewClient(options.Client().ApplyURI(cfg.MongoURI))
+	cli, err := mongo.NewClient(options.Client().ApplyURI(cfg.MongoURI))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -37,19 +38,18 @@ func ConnectDB() {
 		log.Fatal(err)
 	}
 	fmt.Println("Connected to MongoDB")
-	DB = client
+	client = cli
 }
 
-//Client instace
-var DB *mongo.Client
+var client *mongo.Client
 
-//getting database collections
+// GetCollection getting database collections
 func GetCollection(collectionName string) *mongo.Collection {
 	cfg := config.GetConfig()
 	if cfg == nil {
 		log.Fatalf("Não foi carregada configuracão!\n")
 		return nil
 	}
-	collection := DB.Database(cfg.MongoDB).Collection(collectionName)
+	collection := client.Database(cfg.MongoDB).Collection(collectionName)
 	return collection
 }

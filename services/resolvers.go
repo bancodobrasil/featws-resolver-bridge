@@ -3,33 +3,19 @@ package services
 import (
 	"context"
 
-	"github.com/bancodobrasil/featws-resolver-bridge/database"
 	"github.com/bancodobrasil/featws-resolver-bridge/models"
-	"go.mongodb.org/mongo-driver/mongo"
+	"github.com/bancodobrasil/featws-resolver-bridge/repository"
 )
 
-type Resolvers struct {
-	collection *mongo.Collection
-}
+// CreateResolver ...
+func CreateResolver(ctx context.Context, resolver *models.Resolver) error {
 
-var instance = Resolvers{}
+	//TODO verifica unicidade do nome
 
-func GetResolversService() Resolvers {
-	if instance.collection == nil {
-		instance.collection = database.GetCollection("resolvers")
-	}
-
-	return instance
-}
-
-func (s Resolvers) Create(ctx context.Context, resolver *models.Resolver) error {
-
-	result, err := s.collection.InsertOne(ctx, resolver)
+	err := repository.GetResolversRepository().Create(ctx, resolver)
 	if err != nil {
 		return err
 	}
-
-	resolver.Id = result.InsertedID
 
 	return nil
 }
