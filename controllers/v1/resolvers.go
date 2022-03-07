@@ -180,3 +180,37 @@ func UpdateResolver() gin.HandlerFunc {
 		c.String(http.StatusNotFound, "")
 	}
 }
+
+// DeleteResolver ...
+func DeleteResolver() gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		id, exists := c.Params.Get("id")
+
+		if !exists {
+			c.JSON(http.StatusBadRequest, responses.Error{
+				Error: "Required param 'id'",
+			})
+			return
+		}
+
+		deleted, err := services.DeleteResolver(ctx, id)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.Error{
+				Error: err.Error(),
+			})
+			return
+		}
+
+		if !deleted {
+			c.String(http.StatusNotFound, "")
+			return
+		}
+
+		c.String(http.StatusNoContent, "")
+	}
+}

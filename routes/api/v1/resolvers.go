@@ -10,4 +10,5 @@ func resolversRouter(router *gin.RouterGroup) {
 	router.GET("/", v1.GetResolvers())
 	router.GET("/:id", v1.GetResolver())
 	router.PUT("/:id", v1.UpdateResolver())
+	router.DELETE("/:id", v1.DeleteResolver())
 }

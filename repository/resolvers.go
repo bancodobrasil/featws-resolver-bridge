@@ -98,3 +98,22 @@ func (r Resolvers) Update(ctx context.Context, entity models.Resolver) (updated 
 
 	return
 }
+
+// Get ...
+func (r Resolvers) Delete(ctx context.Context, id string) (deleted bool, err error) {
+
+	oid, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return
+	}
+
+	result, err := r.collection.DeleteOne(ctx, bson.M{"_id": oid})
+
+	if err != nil {
+		return
+	}
+
+	deleted = result.DeletedCount == 1
+
+	return
+}
