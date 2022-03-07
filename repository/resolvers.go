@@ -58,3 +58,26 @@ func (r Resolvers) Find(ctx context.Context) (list []models.Resolver, err error)
 
 	return
 }
+
+// Get ...
+func (r Resolvers) Get(ctx context.Context, id string) (resolver *models.Resolver, err error) {
+
+	oid, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return
+	}
+
+	result := r.collection.FindOne(ctx, bson.M{"_id": oid})
+
+	err = result.Err()
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, nil
+		}
+		return
+	}
+
+	result.Decode(&resolver)
+
+	return
+}

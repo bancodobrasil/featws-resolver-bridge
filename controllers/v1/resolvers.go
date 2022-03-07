@@ -80,7 +80,42 @@ func GetResolvers() gin.HandlerFunc {
 			response[index] = responses.NewResolver(entity)
 		}
 
-		c.JSON(http.StatusCreated, response)
+		c.JSON(http.StatusOK, response)
+	}
+}
+
+// GetResolver ...
+func GetResolver() gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		id, exists := c.Params.Get("id")
+
+		if !exists {
+			c.JSON(http.StatusBadRequest, responses.Error{
+				Error: "Required param 'id'",
+			})
+			return
+		}
+
+		entity, err := services.FetchResolver(ctx, id)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.Error{
+				Error: err.Error(),
+			})
+			return
+		}
+
+		if entity != nil {
+			var response = responses.NewResolver(*entity)
+
+			c.JSON(http.StatusOK, response)
+			return
+		}
+
+		c.String(http.StatusNotFound, "")
 	}
 }
 
