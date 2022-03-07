@@ -45,14 +45,14 @@ func FetchResolver(ctx context.Context, id string) (result *models.Resolver, err
 // UpdateResolver ...
 func UpdateResolver(ctx context.Context, entity models.Resolver) (result *models.Resolver, err error) {
 
-	result, err = repository.GetResolversRepository().Get(ctx, entity.ID.Hex())
-	if err != nil {
-		return
-	}
+	// result, err = repository.GetResolversRepository().Get(ctx, entity.ID.Hex())
+	// if err != nil {
+	// 	return
+	// }
 
-	if result == nil {
-		return
-	}
+	// if result == nil {
+	// 	return
+	// }
 
 	result, err = repository.GetResolversRepository().Update(ctx, entity)
 	if err != nil {
