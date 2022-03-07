@@ -119,167 +119,64 @@ func GetResolver() gin.HandlerFunc {
 	}
 }
 
-// func GetAResolver() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-// 		resolverId := c.Param("resolverId")
-// 		var resolver models.Resolver
-// 		defer cancel()
+// UpdateResolver ...
+func UpdateResolver() gin.HandlerFunc {
 
-// 		objId, _ := primitive.ObjectIDFromHex(resolverId)
+	return func(c *gin.Context) {
 
-// 		err := resolversCollection.FindOne(ctx, bson.M{"_id": objId}).Decode(&resolver)
-// 		if err != nil {
-// 			c.JSON(http.StatusInternalServerError, responses.ResolverResponse{
-// 				Status:  http.StatusInternalServerError,
-// 				Message: "error",
-// 				Data:    map[string]interface{}{"data": err.Error()},
-// 			})
-// 			return
-// 		}
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
 
-// 		c.JSON(http.StatusOK, responses.ResolverResponse{
-// 			Status:  http.StatusOK,
-// 			Message: "success",
-// 			Data:    map[string]interface{}{"data": resolver},
-// 		})
-// 	}
-// }
+		id, exists := c.Params.Get("id")
 
-// func EditAResolver() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-// 		resolverId := c.Param("resolverId")
-// 		var resolver models.Resolver
-// 		defer cancel()
-// 		objId, _ := primitive.ObjectIDFromHex(resolverId)
+		if !exists {
+			c.JSON(http.StatusBadRequest, responses.Error{
+				Error: "Required param 'id'",
+			})
+			return
+		}
 
-// 		//validate the request body
-// 		if err := c.BindJSON(&resolver); err != nil {
-// 			c.JSON(http.StatusBadRequest, responses.ResolverResponse{
-// 				Status:  http.StatusBadRequest,
-// 				Message: "error",
-// 				Data:    map[string]interface{}{"data": err.Error()},
-// 			})
-// 			return
-// 		}
+		var payload payloads.Resolver
+		// validate the request body
+		if err := c.BindJSON(&payload); err != nil {
+			c.JSON(http.StatusBadRequest, responses.Error{
+				Error: err.Error(),
+			})
+		}
 
-// 		//use the validator library to validate required fields
-// 		if validationErr := validate.Struct(&resolver); validationErr != nil {
-// 			c.JSON(http.StatusBadRequest, responses.ResolverResponse{
-// 				Status:  http.StatusBadRequest,
-// 				Message: "error",
-// 				Data:    map[string]interface{}{"data": validationErr.Error()},
-// 			})
-// 			return
-// 		}
+		// use the validator libraty to validate required fields
+		if validationErr := validate.Struct(&payload); validationErr != nil {
+			c.JSON(http.StatusBadRequest, responses.Error{
+				Error: validationErr.Error(),
+			})
+			return
+		}
 
-// 		update := bson.M{"title": resolver.Title, "author": resolver.Author, "price": resolver.Price}
-// 		result, err := resolversCollection.UpdateOne(ctx, bson.M{"_id": objId}, bson.M{"$set": update})
-// 		if err != nil {
-// 			c.JSON(http.StatusInternalServerError, responses.ResolverResponse{
-// 				Status:  http.StatusInternalServerError,
-// 				Message: "error",
-// 				Data:    map[string]interface{}{"data": err.Error()},
-// 			})
-// 			return
-// 		}
+		payload.ID = id
 
-// 		//get updated resolver datails
-// 		var updatedResolver models.Resolver
-// 		if result.MatchedCount == 1 {
-// 			err := resolversCollection.FindOne(ctx, bson.M{"_id": objId}).Decode(&updatedResolver)
-// 			if err != nil {
-// 				c.JSON(http.StatusInternalServerError, responses.ResolverResponse{
-// 					Status:  http.StatusInternalServerError,
-// 					Message: "error",
-// 					Data:    map[string]interface{}{"data": err.Error()},
-// 				})
-// 				return
-// 			}
+		entity, err := models.NewResolverV1(payload)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.Error{
+				Error: err.Error(),
+			})
+			return
+		}
 
-// 			c.JSON(http.StatusOK, responses.ResolverResponse{
-// 				Status:  http.StatusOK,
-// 				Message: "success",
-// 				Data:    map[string]interface{}{"data": updatedResolver},
-// 			})
-// 		}
-// 	}
-// }
+		updatedEntity, err := services.UpdateResolver(ctx, entity)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.Error{
+				Error: err.Error(),
+			})
+			return
+		}
 
-// func DeleteAResolver() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-// 		resolverId := c.Param("resolverId")
-// 		defer cancel()
+		if updatedEntity != nil {
+			var response = responses.NewResolver(*updatedEntity)
 
-// 		objId, _ := primitive.ObjectIDFromHex(resolverId)
+			c.JSON(http.StatusOK, response)
+			return
+		}
 
-// 		result, err := resolversCollection.DeleteOne(ctx, bson.M{"_id": objId})
-// 		if err != nil {
-// 			c.JSON(http.StatusInternalServerError, responses.ResolverResponse{
-// 				Status:  http.StatusInternalServerError,
-// 				Message: "error",
-// 				Data:    map[string]interface{}{"data": err.Error()},
-// 			})
-// 			return
-// 		}
-
-// 		if result.DeletedCount < 1 {
-// 			c.JSON(http.StatusNotFound, responses.ResolverResponse{
-// 				Status:  http.StatusNotFound,
-// 				Message: "error",
-// 				Data:    map[string]interface{}{"data": "Resolver with specified ID not found!"}},
-// 			)
-// 			return
-// 		}
-
-// 		c.JSON(http.StatusNoContent, responses.ResolverResponse{
-// 			Status:  http.StatusOK,
-// 			Message: "success",
-// 			Data:    map[string]interface{}{"data": "Resolver successfully deleted!"}},
-// 		)
-
-// 	}
-// }
-
-// func GetAllResolvers() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-// 		var resolvers []models.Resolver
-// 		defer cancel()
-
-// 		results, err := resolversCollection.Find(ctx, bson.M{})
-
-// 		if err != nil {
-// 			c.JSON(http.StatusInternalServerError, responses.ResolverResponse{
-// 				Status:  http.StatusInternalServerError,
-// 				Message: "error",
-// 				Data:    map[string]interface{}{"data": err.Error()},
-// 			})
-// 			return
-// 		}
-
-// 		// reading from the db in an optimal way
-// 		defer results.Close(ctx)
-// 		for results.Next(ctx) {
-// 			var singleResolver models.Resolver
-// 			if err = results.Decode(&singleResolver); err != nil {
-// 				c.JSON(http.StatusInternalServerError, responses.ResolverResponse{
-// 					Status:  http.StatusInternalServerError,
-// 					Message: "error",
-// 					Data:    map[string]interface{}{"data": err.Error()},
-// 				})
-// 				return
-// 			}
-
-// 			resolvers = append(resolvers, singleResolver)
-// 		}
-
-// 		c.JSON(http.StatusOK, responses.ResolverResponse{
-// 			Status:  http.StatusOK,
-// 			Message: "success",
-// 			Data:    map[string]interface{}{"data": resolvers},
-// 		})
-// 	}
-// }
+		c.String(http.StatusNotFound, "")
+	}
+}

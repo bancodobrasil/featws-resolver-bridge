@@ -81,3 +81,20 @@ func (r Resolvers) Get(ctx context.Context, id string) (resolver *models.Resolve
 
 	return
 }
+
+func (r Resolvers) Update(ctx context.Context, entity models.Resolver) (updated *models.Resolver, err error) {
+
+	update := bson.M{"name": entity.Name, "url": entity.URL, "headers": entity.Headers}
+	_, err = r.collection.UpdateOne(ctx, bson.M{"_id": entity.ID}, bson.M{"$set": update})
+
+	if err != nil {
+		return
+	}
+
+	updated, err = r.Get(ctx, entity.ID.Hex())
+	if err != nil {
+		return
+	}
+
+	return
+}

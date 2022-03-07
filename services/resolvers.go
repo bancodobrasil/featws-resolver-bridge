@@ -42,6 +42,26 @@ func FetchResolver(ctx context.Context, id string) (result *models.Resolver, err
 	return
 }
 
+// UpdateResolver ...
+func UpdateResolver(ctx context.Context, entity models.Resolver) (result *models.Resolver, err error) {
+
+	result, err = repository.GetResolversRepository().Get(ctx, entity.ID.Hex())
+	if err != nil {
+		return
+	}
+
+	if result == nil {
+		return
+	}
+
+	result, err = repository.GetResolversRepository().Update(ctx, entity)
+	if err != nil {
+		return
+	}
+
+	return
+}
+
 // func GetAResolver() gin.HandlerFunc {
 // 	return func(c *gin.Context) {
 // 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
