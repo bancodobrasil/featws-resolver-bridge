@@ -66,7 +66,17 @@ func GetResolvers() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		entities, err := services.FetchResolvers(ctx)
+		query := c.Request.URL.Query()
+		filter := make(map[string]interface{})
+		for param, value := range query {
+			if len(value) == 1 {
+				filter[param] = value[0]
+				continue
+			}
+			filter[param] = value
+		}
+
+		entities, err := services.FetchResolvers(ctx, filter)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, responses.Error{
 				Error: err.Error(),

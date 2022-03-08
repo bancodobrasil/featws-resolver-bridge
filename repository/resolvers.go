@@ -40,8 +40,13 @@ func (r Resolvers) Create(ctx context.Context, resolver *models.Resolver) error 
 }
 
 // Find ...
-func (r Resolvers) Find(ctx context.Context) (list []models.Resolver, err error) {
-	results, err := r.collection.Find(ctx, bson.M{})
+func (r Resolvers) Find(ctx context.Context, filter interface{}) (list []models.Resolver, err error) {
+
+	if filter == nil {
+		filter = bson.M{}
+	}
+
+	results, err := r.collection.Find(ctx, filter)
 	if err != nil {
 		return
 	}
@@ -82,10 +87,11 @@ func (r Resolvers) Get(ctx context.Context, id string) (resolver *models.Resolve
 	return
 }
 
+// Update ...
 func (r Resolvers) Update(ctx context.Context, entity models.Resolver) (updated *models.Resolver, err error) {
 
-	update := bson.M{"name": entity.Name, "url": entity.URL, "headers": entity.Headers}
-	_, err = r.collection.UpdateOne(ctx, bson.M{"_id": entity.ID}, bson.M{"$set": update})
+	//update := bson.M{"name": entity.Name, "type": entity.Type, "opti": entity.Headers}
+	_, err = r.collection.UpdateOne(ctx, bson.M{"_id": entity.ID}, bson.M{"$set": entity})
 
 	if err != nil {
 		return
@@ -99,7 +105,7 @@ func (r Resolvers) Update(ctx context.Context, entity models.Resolver) (updated 
 	return
 }
 
-// Get ...
+// Delete ...
 func (r Resolvers) Delete(ctx context.Context, id string) (deleted bool, err error) {
 
 	oid, err := primitive.ObjectIDFromHex(id)

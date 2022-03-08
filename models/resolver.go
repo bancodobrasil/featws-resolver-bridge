@@ -7,10 +7,10 @@ import (
 
 // Resolver ...
 type Resolver struct {
-	ID      primitive.ObjectID `bson:"_id,omitempty"`
-	Name    string             `bson:"name,omitempty"`
-	URL     string             `bson:"url,omitempty"`
-	Headers map[string]string  `bson:"headers,omitempty"`
+	ID      primitive.ObjectID     `bson:"_id,omitempty"`
+	Name    string                 `bson:"name,omitempty"`
+	Type    string                 `bson:"type,omitempty"`
+	Options map[string]interface{} `bson:"options,omitempty"`
 }
 
 // NewResolverV1 ...
@@ -28,8 +28,8 @@ func NewResolverV1(payload v1.Resolver) (entity Resolver, err error) {
 	entity = Resolver{
 		ID:      id,
 		Name:    payload.Name,
-		URL:     payload.URL,
-		Headers: payload.Headers,
+		Type:    payload.Type,
+		Options: payload.Options,
 	}
 	return
 }

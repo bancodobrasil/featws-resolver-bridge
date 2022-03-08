@@ -6,8 +6,8 @@ package v1
 // 	Load    []string               `json:"load"`
 // }
 type Resolver struct {
-	ID      string            `json:"id,omitempty"`
-	Name    string            `json:"name,omitempty" validate:"required"`
-	URL     string            `json:"url,omitempty" validate:"required"`
-	Headers map[string]string `json:"headers,omitempty"`
+	ID      string                 `json:"id,omitempty" mapstructure:"id,omitempty"`
+	Name    string                 `json:"name,omitempty" validate:"required" mapstructure:"name"`
+	Type    string                 `json:"type,omitempty" validate:"required" mapstructure:"type"`
+	Options map[string]interface{} `json:"options,omitempty" validate:"required" mapstructure:"options"`
 }

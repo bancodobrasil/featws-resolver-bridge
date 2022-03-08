@@ -21,9 +21,9 @@ func CreateResolver(ctx context.Context, resolver *models.Resolver) (err error) 
 }
 
 // FetchResolvers ...
-func FetchResolvers(ctx context.Context) (result []models.Resolver, err error) {
+func FetchResolvers(ctx context.Context, filter interface{}) (result []models.Resolver, err error) {
 
-	result, err = repository.GetResolversRepository().Find(ctx)
+	result, err = repository.GetResolversRepository().Find(ctx, filter)
 	if err != nil {
 		return
 	}
@@ -63,4 +63,3 @@ func DeleteResolver(ctx context.Context, id string) (deleted bool, err error) {
 
 	return
 }
-

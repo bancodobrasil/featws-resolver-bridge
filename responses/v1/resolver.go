@@ -2,16 +2,12 @@ package v1
 
 import "github.com/bancodobrasil/featws-resolver-bridge/models"
 
-// Resolver contais all output of resolver execution
-// type Resolver struct {
-// 	Context map[string]interface{} `json:"context"`
-// 	Errors  map[string]interface{} `json:"errors"`
-// }
+// Resolver ...
 type Resolver struct {
-	ID      string            `json:"id,omitempty"`
-	Name    string            `json:"name,omitempty"`
-	URL     string            `json:"url,omitempty"`
-	Headers map[string]string `json:"headers,omitempty"`
+	ID      string                 `json:"id,omitempty"`
+	Name    string                 `json:"name,omitempty"`
+	Type    string                 `json:"type,omitempty"`
+	Options map[string]interface{} `json:"options,omitempty"`
 }
 
 // NewResolver ...
@@ -19,7 +15,7 @@ func NewResolver(entity models.Resolver) Resolver {
 	return Resolver{
 		ID:      entity.ID.Hex(),
 		Name:    entity.Name,
-		URL:     entity.URL,
-		Headers: entity.Headers,
+		Type:    entity.Type,
+		Options: entity.Options,
 	}
 }
