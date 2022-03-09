@@ -26,6 +26,7 @@ func CreateResolver() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, responses.Error{
 				Error: err.Error(),
 			})
+			return
 		}
 
 		// use the validator libraty to validate required fields
@@ -53,7 +54,6 @@ func CreateResolver() gin.HandlerFunc {
 		}
 
 		var response = responses.NewResolver(entity)
-
 		c.JSON(http.StatusCreated, response)
 	}
 }
