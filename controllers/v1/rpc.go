@@ -40,3 +40,20 @@ func ResolveHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, resolverOutput)
 }
+
+// LoadHandler ...
+func LoadHandler(c *gin.Context) {
+
+	_, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	err := services.Load()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, responses.Error{
+			Error: err.Error(),
+		})
+		return
+	}
+
+	c.Status(http.StatusNoContent)
+}

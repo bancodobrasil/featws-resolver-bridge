@@ -18,19 +18,10 @@ import (
 func Resolve(ctx context.Context, resolverName string, dto *dtos.ResolveContext) (err error) {
 	log.Debugf("Resolving with '%s': %s", resolverName, dto)
 
-	resolvers, err := FetchResolvers(ctx, models.Resolver{
-		Name: resolverName,
-	})
+	resolver, err := FetchResolver(resolverName)
 	if err != nil {
 		return
 	}
-
-	if len(resolvers) != 1 {
-		err = fmt.Errorf("couldn't bound resolver with '%s'", resolverName)
-		return
-	}
-
-	resolver := resolvers[0]
 
 	if resolver.Type == "http" {
 		err = resolveHTTP(ctx, resolver, dto)

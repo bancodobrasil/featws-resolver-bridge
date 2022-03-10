@@ -1,125 +1,59 @@
 package repository
 
 import (
-	"context"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
 
-	"github.com/bancodobrasil/featws-resolver-bridge/database"
+	"github.com/bancodobrasil/featws-resolver-bridge/config"
 	"github.com/bancodobrasil/featws-resolver-bridge/models"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 // Resolvers ...
 type Resolvers struct {
-	collection *mongo.Collection
+	resolvers map[string]models.Resolver
 }
 
 var instance = Resolvers{}
 
 // GetResolversRepository ...
 func GetResolversRepository() Resolvers {
-	if instance.collection == nil {
-		instance.collection = database.GetCollection("resolvers")
+	if instance.resolvers == nil || len(instance.resolvers) == 0 {
+		instance.Load()
 	}
 
 	return instance
 }
 
-// Create ...
-func (r Resolvers) Create(ctx context.Context, resolver *models.Resolver) error {
+// Load ...
+func (r Resolvers) Load() (err error) {
+	config := config.GetConfig()
 
-	result, err := r.collection.InsertOne(ctx, resolver)
-	if err != nil {
-		return err
-	}
-
-	resolver.ID = result.InsertedID.(primitive.ObjectID)
-
-	return nil
-}
-
-// Find ...
-func (r Resolvers) Find(ctx context.Context, filter interface{}) (list []models.Resolver, err error) {
-
-	if filter == nil {
-		filter = bson.M{}
-	}
-
-	results, err := r.collection.Find(ctx, filter)
+	jsonFile, err := os.Open(config.ResolversFile)
 	if err != nil {
 		return
 	}
+	defer jsonFile.Close()
 
-	defer results.Close(ctx)
-	for results.Next(ctx) {
-		var resolver models.Resolver
-		if err = results.Decode(&resolver); err != nil {
-			return
-		}
+	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-		list = append(list, resolver)
+	// we unmarshal our byteArray which contains our
+	// jsonFile's content into 'users' which we defined above
+	err = json.Unmarshal(byteValue, &(instance.resolvers))
+	if err != nil {
+		return
 	}
 
 	return
 }
 
 // Get ...
-func (r Resolvers) Get(ctx context.Context, id string) (resolver *models.Resolver, err error) {
-
-	oid, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
+func (r Resolvers) Get(name string) (resolver models.Resolver, err error) {
+	resolver, ok := r.resolvers[name]
+	if !ok {
+		err = fmt.Errorf("couldn't bound resolver with '%s'", name)
 		return
 	}
-
-	result := r.collection.FindOne(ctx, bson.M{"_id": oid})
-
-	err = result.Err()
-	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, nil
-		}
-		return
-	}
-
-	result.Decode(&resolver)
-
-	return
-}
-
-// Update ...
-func (r Resolvers) Update(ctx context.Context, entity models.Resolver) (updated *models.Resolver, err error) {
-
-	//update := bson.M{"name": entity.Name, "type": entity.Type, "opti": entity.Headers}
-	_, err = r.collection.UpdateOne(ctx, bson.M{"_id": entity.ID}, bson.M{"$set": entity})
-
-	if err != nil {
-		return
-	}
-
-	updated, err = r.Get(ctx, entity.ID.Hex())
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// Delete ...
-func (r Resolvers) Delete(ctx context.Context, id string) (deleted bool, err error) {
-
-	oid, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return
-	}
-
-	result, err := r.collection.DeleteOne(ctx, bson.M{"_id": oid})
-
-	if err != nil {
-		return
-	}
-
-	deleted = result.DeletedCount == 1
-
 	return
 }

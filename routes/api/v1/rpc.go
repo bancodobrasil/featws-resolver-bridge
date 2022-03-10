@@ -7,4 +7,5 @@ import (
 
 func rpcRouter(router *gin.RouterGroup) {
 	router.POST("/resolve", v1.ResolveHandler)
+	router.GET("/load", v1.LoadHandler)
 }

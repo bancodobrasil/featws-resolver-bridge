@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"github.com/bancodobrasil/featws-resolver-bridge/config"
-	"github.com/bancodobrasil/featws-resolver-bridge/database"
 	"github.com/bancodobrasil/featws-resolver-bridge/routes"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -34,8 +33,6 @@ func main() {
 		log.Fatalf("Não foi carregada configuracão!\n")
 		return
 	}
-
-	database.ConnectDB()
 
 	router := gin.New()
 
