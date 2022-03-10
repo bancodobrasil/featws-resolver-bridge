@@ -16,7 +16,7 @@ FROM alpine:3.15
 
 COPY --from=BUILD /app/bridge /bin/
 
-CMD [ "resolver" ] 
+CMD [ "bridge" ] 
 
 
 
