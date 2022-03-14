@@ -16,6 +16,7 @@ func FetchResolver(name string) (result models.Resolver, err error) {
 	return
 }
 
+// Load ...
 func Load() (err error) {
 
 	err = repository.GetResolversRepository().Load()
