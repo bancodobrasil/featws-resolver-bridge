@@ -5,7 +5,9 @@ import (
 
 	"github.com/bancodobrasil/featws-resolver-bridge/config"
 	"github.com/bancodobrasil/featws-resolver-bridge/routes"
+	ginMonitor "github.com/bancodobrasil/gin-monitor"
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -34,9 +36,15 @@ func main() {
 		return
 	}
 
-	router := gin.New()
+	monitor, err := ginMonitor.New("v1.0.0", ginMonitor.DefaultErrorMessageKey, ginMonitor.DefaultBuckets)
+	if err != nil {
+		panic(err)
+	}
 
+	router := gin.New()
 	routes.SetupRoutes(router)
+	router.Use(monitor.Prometheus())
+	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	port := cfg.Port
 
