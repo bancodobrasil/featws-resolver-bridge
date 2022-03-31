@@ -14,18 +14,22 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// TODO esses errorsf deveriam ser panics????
+
 // Resolve ...
 func Resolve(ctx context.Context, resolverName string, dto *dtos.ResolveContext) (err error) {
 	log.Debugf("Resolving with '%s': %s", resolverName, dto)
 
 	resolver, err := FetchResolver(resolverName)
 	if err != nil {
+		log.Errorf("error occurs on fetch the resolver: %v", err)
 		return
 	}
 
 	if resolver.Type == "http" {
 		err = resolveHTTP(ctx, resolver, dto)
 		if err != nil {
+			log.Errorf("error occurs on resolve HTTP: %v", err)
 			return
 		}
 	}
@@ -59,11 +63,13 @@ func resolveHTTP(ctx context.Context, resolver models.Resolver, dto *dtos.Resolv
 	var buf bytes.Buffer
 	err = json.NewEncoder(&buf).Encode(input)
 	if err != nil {
+		log.Errorf("error occurs on encoder the JSON: %v", err)
 		return
 	}
 
 	req, err := http.NewRequest("POST", url, &buf)
 	if err != nil {
+		log.Errorf("error occurs on create a request: %v", err)
 		return
 	}
 
@@ -76,12 +82,14 @@ func resolveHTTP(ctx context.Context, resolver models.Resolver, dto *dtos.Resolv
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
+		log.Errorf("error occurs on initializate a HTTP client: %v", err)
 		return
 	}
 	defer resp.Body.Close()
 
 	data, err := io.ReadAll(resp.Body)
 	if err != nil {
+		log.Errorf("error occurs on read the reponse body: %v", err)
 		return
 	}
 
@@ -90,6 +98,7 @@ func resolveHTTP(ctx context.Context, resolver models.Resolver, dto *dtos.Resolv
 	output := resolveOutputV1{}
 	err = json.Unmarshal(data, &output)
 	if err != nil {
+		log.Errorf("error occurs on unmarshal the data into output: %v", err)
 		return
 	}
 
