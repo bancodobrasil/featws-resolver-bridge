@@ -14,8 +14,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// TODO esses errorsf deveriam ser panics????
-
 // Resolve ...
 func Resolve(ctx context.Context, resolverName string, dto *dtos.ResolveContext) (err error) {
 	log.Debugf("Resolving with '%s': %s", resolverName, dto)

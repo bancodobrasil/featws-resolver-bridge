@@ -55,7 +55,6 @@ func (r Resolvers) Load() (err error) {
 func (r Resolvers) Get(name string) (resolver models.Resolver, err error) {
 	resolver, ok := r.resolvers[name]
 	if !ok {
-		// TODO confirmar validade deste codigo
 		err = fmt.Errorf("couldn't bound resolver with '%s'", name)
 		log.Error(err)
 		return
