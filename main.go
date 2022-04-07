@@ -5,6 +5,7 @@ import (
 
 	"github.com/bancodobrasil/featws-resolver-bridge/config"
 	"github.com/bancodobrasil/featws-resolver-bridge/routes"
+	telemetry "github.com/bancodobrasil/gin-telemetry"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
@@ -37,6 +38,7 @@ func main() {
 	router := gin.New()
 
 	routes.SetupRoutes(router)
+	router.Use(telemetry.Middleware("featws-resolver-bridge"))
 
 	port := cfg.Port
 
