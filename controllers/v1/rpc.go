@@ -28,7 +28,15 @@ func ResolveHandler(c *gin.Context) {
 
 	resolveContext := dtos.NewResolveV1(input)
 
-	err := services.Resolve(ctx, input.Resolver, &resolveContext)
+	resolver := input.Resolver
+
+	resolverName, exists := c.Params.Get("resolver")
+
+	if exists {
+		resolver = resolverName
+	}
+
+	err := services.Resolve(ctx, resolver, &resolveContext)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, responses.Error{
 			Error: err.Error(),

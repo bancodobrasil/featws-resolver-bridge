@@ -54,13 +54,13 @@ func resolveHTTP(ctx context.Context, resolver models.Resolver, dto *dtos.Resolv
 		Load:    dto.Load,
 	}
 
-	log.Debugf("Resolving with '%s': %v", url, input)
-
 	var buf bytes.Buffer
 	err = json.NewEncoder(&buf).Encode(input)
 	if err != nil {
 		return
 	}
+
+	log.Debugf("Resolving with '%s' Encoded: %v", url, buf.String())
 
 	req, err := http.NewRequest("POST", url, &buf)
 	if err != nil {
