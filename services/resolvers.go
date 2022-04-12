@@ -16,6 +16,17 @@ func FetchResolver(name string) (result models.Resolver, err error) {
 	return
 }
 
+// FetchResolvers ...
+func FetchResolvers() (result []models.Resolver, err error) {
+
+	result, err = repository.GetResolversRepository().Find()
+	if err != nil {
+		return
+	}
+
+	return
+}
+
 // Load ...
 func Load() (err error) {
 

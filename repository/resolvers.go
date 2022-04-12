@@ -55,5 +55,26 @@ func (r Resolvers) Get(name string) (resolver models.Resolver, err error) {
 		err = fmt.Errorf("couldn't bound resolver with '%s'", name)
 		return
 	}
+	resolver.Name = name
+	return
+}
+
+// Find ...
+func (r Resolvers) Find() (resolvers []models.Resolver, err error) {
+
+	if r.resolvers == nil {
+		err = fmt.Errorf("couldn't fetch resolvers")
+		return
+	}
+
+	for name := range r.resolvers {
+		resolver, err := r.Get(name)
+		if err != nil {
+			return nil, err
+		}
+
+		resolvers = append(resolvers, resolver)
+	}
+
 	return
 }
