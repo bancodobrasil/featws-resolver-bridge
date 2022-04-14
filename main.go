@@ -7,6 +7,7 @@ import (
 	"github.com/bancodobrasil/featws-resolver-bridge/routes"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
+	ginlogrus "github.com/toorop/gin-logrus"
 )
 
 func setupLog() {
@@ -34,7 +35,11 @@ func main() {
 		return
 	}
 
+	gin.DefaultWriter = log.StandardLogger().WriterLevel(log.DebugLevel)
+	gin.DefaultErrorWriter = log.StandardLogger().WriterLevel(log.ErrorLevel)
+
 	router := gin.New()
+	router.Use(ginlogrus.Logger(log.StandardLogger()), gin.Recovery())
 
 	routes.SetupRoutes(router)
 
