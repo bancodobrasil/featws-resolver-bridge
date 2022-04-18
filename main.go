@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
+	ginlogrus "github.com/toorop/gin-logrus"
 )
 
 func setupLog() {
@@ -40,8 +41,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	gin.DefaultWriter = log.StandardLogger().WriterLevel(log.DebugLevel)
+	gin.DefaultErrorWriter = log.StandardLogger().WriterLevel(log.ErrorLevel)
 
 	router := gin.New()
+	router.Use(ginlogrus.Logger(log.StandardLogger()), gin.Recovery())
 	routes.SetupRoutes(router)
 	router.Use(monitor.Prometheus())
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))

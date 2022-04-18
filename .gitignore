@@ -16,3 +16,4 @@
 resolver
 _data/
 resolvers.json
+.env
