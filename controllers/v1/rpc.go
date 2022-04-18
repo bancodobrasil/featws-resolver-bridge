@@ -10,6 +10,7 @@ import (
 	responses "github.com/bancodobrasil/featws-resolver-bridge/responses/v1"
 	"github.com/bancodobrasil/featws-resolver-bridge/services"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 )
 
 // ResolveHandler ...
@@ -20,6 +21,7 @@ func ResolveHandler(c *gin.Context) {
 
 	var input payloads.Resolve
 	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Errorf("error occurs on binding JSON: %v", err)
 		c.JSON(http.StatusBadRequest, responses.Error{
 			Error: err.Error(),
 		})
@@ -28,8 +30,17 @@ func ResolveHandler(c *gin.Context) {
 
 	resolveContext := dtos.NewResolveV1(input)
 
-	err := services.Resolve(ctx, input.Resolver, &resolveContext)
+	resolver := input.Resolver
+
+	resolverName, exists := c.Params.Get("resolver")
+
+	if exists {
+		resolver = resolverName
+	}
+
+	err := services.Resolve(ctx, resolver, &resolveContext)
 	if err != nil {
+		log.Errorf("error occurs on resolve the context: %v", err)
 		c.JSON(http.StatusInternalServerError, responses.Error{
 			Error: err.Error(),
 		})
@@ -49,6 +60,7 @@ func LoadHandler(c *gin.Context) {
 
 	err := services.Load()
 	if err != nil {
+		log.Errorf("error occurs on load: %v", err)
 		c.JSON(http.StatusInternalServerError, responses.Error{
 			Error: err.Error(),
 		})
