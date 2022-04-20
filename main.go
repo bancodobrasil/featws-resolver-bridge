@@ -6,6 +6,7 @@ import (
 	"github.com/bancodobrasil/featws-resolver-bridge/config"
 	"github.com/bancodobrasil/featws-resolver-bridge/routes"
 	ginMonitor "github.com/bancodobrasil/gin-monitor"
+	telemetry "github.com/bancodobrasil/gin-telemetry"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
@@ -48,6 +49,7 @@ func main() {
 	router.Use(ginlogrus.Logger(log.StandardLogger()), gin.Recovery())
 	router.Use(monitor.Prometheus())
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
+	router.Use(telemetry.Middleware("featws-resolver-bridge"))
 	routes.SetupRoutes(router)
 
 	port := cfg.Port
