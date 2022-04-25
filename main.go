@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/bancodobrasil/featws-resolver-bridge/config"
+	_ "github.com/bancodobrasil/featws-resolver-bridge/docs"
 	"github.com/bancodobrasil/featws-resolver-bridge/routes"
 	ginMonitor "github.com/bancodobrasil/gin-monitor"
 	telemetry "github.com/bancodobrasil/gin-telemetry"
@@ -21,7 +22,23 @@ func setupLog() {
 	log.SetLevel(log.DebugLevel)
 }
 
-// Run start the resolver server with resolverFunc
+// @title FeatWS Resolver Bridge
+// @version 1.0
+// @description API Project that provide the data of datacenter to FeatWS
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:9007
+// @BasePath /api/v1
+
+// @x-extension-openapi {"example": "value on a json format"}
+
 func main() {
 
 	setupLog()
