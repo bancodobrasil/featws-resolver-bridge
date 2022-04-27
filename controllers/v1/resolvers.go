@@ -10,7 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ResolversHandler ...
+// ResolversHandler godoc
+// @Summary 		List Resolvers
+// @Description List Resolvers description
+// @Tags 				resolvers
+// @Accept  		json
+// @Produce  		json
+// @Success 		200 {object} string "ok"
+// @Failure 		400,404 {object} string
+// @Failure 		500 {object} string
+// @Failure 		default {object} string
+// @Router 			/resolvers/ [get]
 func ResolversHandler(c *gin.Context) {
 
 	_, cancel := context.WithTimeout(context.Background(), 10*time.Second)

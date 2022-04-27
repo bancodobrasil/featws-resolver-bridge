@@ -1,0 +1,180 @@
+basePath: /api/v1
+definitions:
+  v1.Resolve:
+    properties:
+      context:
+        additionalProperties: true
+        type: object
+      load:
+        items:
+          type: string
+        type: array
+      options:
+        additionalProperties: true
+        type: object
+      resolver:
+        type: string
+    type: object
+host: localhost:9000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: API Project that provide the data of datacenter to FeatWS
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: FeatWS Resolver Bridge
+  version: "1.0"
+paths:
+  /load:
+    get:
+      consumes:
+      - application/json
+      description: Load Resolvers description
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+        default:
+          description: ""
+          schema:
+            type: string
+      summary: Load Resolvers
+      tags:
+      - load
+  /resolve:
+    post:
+      consumes:
+      - application/json
+      description: Resolvers description
+      parameters:
+      - description: resolver
+        in: path
+        name: resolver
+        type: string
+      - description: Parameters
+        in: body
+        name: parameters
+        required: true
+        schema:
+          $ref: '#/definitions/v1.Resolve'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+        default:
+          description: ""
+          schema:
+            type: string
+      summary: Execute the Resolve resolutions
+      tags:
+      - resolve
+  /resolve/{resolver}:
+    post:
+      consumes:
+      - application/json
+      description: Resolvers description
+      parameters:
+      - description: resolver
+        in: path
+        name: resolver
+        type: string
+      - description: Parameters
+        in: body
+        name: parameters
+        required: true
+        schema:
+          $ref: '#/definitions/v1.Resolve'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+        default:
+          description: ""
+          schema:
+            type: string
+      summary: Execute the Resolve resolutions
+      tags:
+      - resolve
+  /resolvers/:
+    get:
+      consumes:
+      - application/json
+      description: List Resolvers description
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+        default:
+          description: ""
+          schema:
+            type: string
+      summary: List Resolvers
+      tags:
+      - resolvers
+swagger: "2.0"
+x-extension-openapi:
+  example: value on a json format
