@@ -13,7 +13,19 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// ResolveHandler ...
+// ResolveHandler godoc
+// @Summary 		Execute the Resolve resolutions
+// @Description Resolvers description
+// @Tags 				resolve
+// @Accept  		json
+// @Produce  		json
+// @Param           resolver path string false "resolver"
+// @Param           parameters body payloads.Resolve true "Parameters"
+// @Success 		200 {object} string "ok"
+// @Failure 		400,404 {object} string
+// @Failure 		500 {object} string
+// @Failure 		default {object} string
+// @Router 			/resolve/{resolver} [post]
 func ResolveHandler(c *gin.Context) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
@@ -52,7 +64,17 @@ func ResolveHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, resolverOutput)
 }
 
-// LoadHandler ...
+// LoadHandler godoc
+// @Summary 		Load Resolvers
+// @Description Load Resolvers description
+// @Tags 				load
+// @Accept  		json
+// @Produce  		json
+// @Success 		200 {object} string "ok"
+// @Failure 		400,404 {object} string
+// @Failure 		500 {object} string
+// @Failure 		default {object} string
+// @Router 			/load [get]
 func LoadHandler(c *gin.Context) {
 
 	_, cancel := context.WithTimeout(context.Background(), 30*time.Second)

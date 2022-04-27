@@ -1,5 +1,21 @@
 basePath: /api/v1
-host: localhost:9007
+definitions:
+  v1.Resolve:
+    properties:
+      context:
+        additionalProperties: true
+        type: object
+      load:
+        items:
+          type: string
+        type: array
+      options:
+        additionalProperties: true
+        type: object
+      resolver:
+        type: string
+    type: object
+host: localhost:9000
 info:
   contact:
     email: support@swagger.io
@@ -17,7 +33,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Create Resolvers description
+      description: Load Resolvers description
       produces:
       - application/json
       responses:
@@ -41,14 +57,25 @@ paths:
           description: ""
           schema:
             type: string
-      summary: Create Resolvers
+      summary: Load Resolvers
       tags:
-      - resolvers
+      - load
   /resolve:
     post:
       consumes:
       - application/json
-      description: Create Resolvers description
+      description: Resolvers description
+      parameters:
+      - description: resolver
+        in: path
+        name: resolver
+        type: string
+      - description: Parameters
+        in: body
+        name: parameters
+        required: true
+        schema:
+          $ref: '#/definitions/v1.Resolve'
       produces:
       - application/json
       responses:
@@ -72,14 +99,25 @@ paths:
           description: ""
           schema:
             type: string
-      summary: Create Resolvers
+      summary: Execute the Resolve resolutions
       tags:
-      - resolvers
+      - resolve
   /resolve/{resolver}:
     post:
       consumes:
       - application/json
-      description: Create Resolvers description
+      description: Resolvers description
+      parameters:
+      - description: resolver
+        in: path
+        name: resolver
+        type: string
+      - description: Parameters
+        in: body
+        name: parameters
+        required: true
+        schema:
+          $ref: '#/definitions/v1.Resolve'
       produces:
       - application/json
       responses:
@@ -103,14 +141,14 @@ paths:
           description: ""
           schema:
             type: string
-      summary: Create Resolvers
+      summary: Execute the Resolve resolutions
       tags:
-      - resolvers
+      - resolve
   /resolvers/:
     get:
       consumes:
       - application/json
-      description: Create Resolvers description
+      description: List Resolvers description
       produces:
       - application/json
       responses:
@@ -134,7 +172,7 @@ paths:
           description: ""
           schema:
             type: string
-      summary: Create Resolvers
+      summary: List Resolvers
       tags:
       - resolvers
 swagger: "2.0"

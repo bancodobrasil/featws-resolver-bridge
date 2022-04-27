@@ -34,7 +34,7 @@ func setupLog() {
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host localhost:9007
+// @host localhost:9000
 // @BasePath /api/v1
 
 // @x-extension-openapi {"example": "value on a json format"}

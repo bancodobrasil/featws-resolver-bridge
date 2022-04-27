@@ -27,7 +27,7 @@ const docTemplate = `{
     "paths": {
         "/load": {
             "get": {
-                "description": "Create Resolvers description",
+                "description": "Load Resolvers description",
                 "consumes": [
                     "application/json"
                 ],
@@ -35,9 +35,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "resolvers"
+                    "load"
                 ],
-                "summary": "Create Resolvers",
+                "summary": "Load Resolvers",
                 "responses": {
                     "200": {
                         "description": "ok",
@@ -74,7 +74,7 @@ const docTemplate = `{
         },
         "/resolve": {
             "post": {
-                "description": "Create Resolvers description",
+                "description": "Resolvers description",
                 "consumes": [
                     "application/json"
                 ],
@@ -82,9 +82,26 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "resolvers"
+                    "resolve"
                 ],
-                "summary": "Create Resolvers",
+                "summary": "Execute the Resolve resolutions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "resolver",
+                        "name": "resolver",
+                        "in": "path"
+                    },
+                    {
+                        "description": "Parameters",
+                        "name": "parameters",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.Resolve"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "ok",
@@ -121,7 +138,7 @@ const docTemplate = `{
         },
         "/resolve/{resolver}": {
             "post": {
-                "description": "Create Resolvers description",
+                "description": "Resolvers description",
                 "consumes": [
                     "application/json"
                 ],
@@ -129,9 +146,26 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "resolvers"
+                    "resolve"
                 ],
-                "summary": "Create Resolvers",
+                "summary": "Execute the Resolve resolutions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "resolver",
+                        "name": "resolver",
+                        "in": "path"
+                    },
+                    {
+                        "description": "Parameters",
+                        "name": "parameters",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.Resolve"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "ok",
@@ -168,7 +202,7 @@ const docTemplate = `{
         },
         "/resolvers/": {
             "get": {
-                "description": "Create Resolvers description",
+                "description": "List Resolvers description",
                 "consumes": [
                     "application/json"
                 ],
@@ -178,7 +212,7 @@ const docTemplate = `{
                 "tags": [
                     "resolvers"
                 ],
-                "summary": "Create Resolvers",
+                "summary": "List Resolvers",
                 "responses": {
                     "200": {
                         "description": "ok",
@@ -214,6 +248,30 @@ const docTemplate = `{
             }
         }
     },
+    "definitions": {
+        "v1.Resolve": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "load": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "options": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "resolver": {
+                    "type": "string"
+                }
+            }
+        }
+    },
     "x-extension-openapi": {
         "example": "value on a json format"
     }
@@ -222,7 +280,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:9007",
+	Host:             "localhost:9000",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "FeatWS Resolver Bridge",

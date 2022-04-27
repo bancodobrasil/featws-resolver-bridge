@@ -11,8 +11,8 @@ import (
 )
 
 // ResolversHandler godoc
-// @Summary 		Create Resolvers
-// @Description Create Resolvers description
+// @Summary 		List Resolvers
+// @Description List Resolvers description
 // @Tags 				resolvers
 // @Accept  		json
 // @Produce  		json
@@ -21,9 +21,6 @@ import (
 // @Failure 		500 {object} string
 // @Failure 		default {object} string
 // @Router 			/resolvers/ [get]
-// @Router 			/resolve/{resolver} [post]
-// @Router 			/resolve [post]
-// @Router 			/load [get]
 func ResolversHandler(c *gin.Context) {
 
 	_, cancel := context.WithTimeout(context.Background(), 10*time.Second)

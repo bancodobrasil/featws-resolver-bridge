@@ -15,12 +15,12 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:9007",
+    "host": "localhost:9000",
     "basePath": "/api/v1",
     "paths": {
         "/load": {
             "get": {
-                "description": "Create Resolvers description",
+                "description": "Load Resolvers description",
                 "consumes": [
                     "application/json"
                 ],
@@ -28,9 +28,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "resolvers"
+                    "load"
                 ],
-                "summary": "Create Resolvers",
+                "summary": "Load Resolvers",
                 "responses": {
                     "200": {
                         "description": "ok",
@@ -67,7 +67,7 @@
         },
         "/resolve": {
             "post": {
-                "description": "Create Resolvers description",
+                "description": "Resolvers description",
                 "consumes": [
                     "application/json"
                 ],
@@ -75,9 +75,26 @@
                     "application/json"
                 ],
                 "tags": [
-                    "resolvers"
+                    "resolve"
                 ],
-                "summary": "Create Resolvers",
+                "summary": "Execute the Resolve resolutions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "resolver",
+                        "name": "resolver",
+                        "in": "path"
+                    },
+                    {
+                        "description": "Parameters",
+                        "name": "parameters",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.Resolve"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "ok",
@@ -114,7 +131,7 @@
         },
         "/resolve/{resolver}": {
             "post": {
-                "description": "Create Resolvers description",
+                "description": "Resolvers description",
                 "consumes": [
                     "application/json"
                 ],
@@ -122,9 +139,26 @@
                     "application/json"
                 ],
                 "tags": [
-                    "resolvers"
+                    "resolve"
                 ],
-                "summary": "Create Resolvers",
+                "summary": "Execute the Resolve resolutions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "resolver",
+                        "name": "resolver",
+                        "in": "path"
+                    },
+                    {
+                        "description": "Parameters",
+                        "name": "parameters",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.Resolve"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "ok",
@@ -161,7 +195,7 @@
         },
         "/resolvers/": {
             "get": {
-                "description": "Create Resolvers description",
+                "description": "List Resolvers description",
                 "consumes": [
                     "application/json"
                 ],
@@ -171,7 +205,7 @@
                 "tags": [
                     "resolvers"
                 ],
-                "summary": "Create Resolvers",
+                "summary": "List Resolvers",
                 "responses": {
                     "200": {
                         "description": "ok",
@@ -203,6 +237,30 @@
                             "type": "string"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "v1.Resolve": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "load": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "options": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "resolver": {
+                    "type": "string"
                 }
             }
         }
