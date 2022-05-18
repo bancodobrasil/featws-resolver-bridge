@@ -40,3 +40,13 @@ func Load() (err error) {
 
 	return
 }
+
+func FetchFromFile() (result []byte, err error) {
+	result, err = repository.GetResolversRepository().FetchFromFile()
+	if err != nil {
+		log.Errorf("error occurs on fetch the resolvers repository: %v", err)
+		return
+	}
+
+	return
+}

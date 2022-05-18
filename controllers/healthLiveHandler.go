@@ -3,13 +3,19 @@ package controllers
 import (
 	"net/http"
 
+	"github.com/bancodobrasil/featws-resolver-bridge/services"
 	"github.com/gin-gonic/gin"
 )
 
-// HealthLiveHandler ...
-func HealthLiveHandler() gin.HandlerFunc {
+// HealthReadyHandler ...
+func HealthReadyHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.String(http.StatusOK, "Application is Live!!!")
+		_, err := services.FetchFromFile()
+		if err != nil {
+			c.String(http.StatusInternalServerError, "Application is not ready!!!")
+			return
+		}
+		c.String(http.StatusOK, "Application is Ready!!!")
 	}
 
 }

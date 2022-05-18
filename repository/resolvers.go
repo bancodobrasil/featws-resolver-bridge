@@ -29,16 +29,11 @@ func GetResolversRepository() Resolvers {
 
 // Load ...
 func (r Resolvers) Load() (err error) {
-	config := config.GetConfig()
-
-	jsonFile, err := os.Open(config.ResolversFile)
+	byteValue, err := r.FetchFromFile()
 	if err != nil {
-		log.Errorf("error occurs on open the JSON file: %v", err)
+		log.Errorf("error occurs on fetch the JSON file: %v", err)
 		return
 	}
-	defer jsonFile.Close()
-
-	byteValue, _ := ioutil.ReadAll(jsonFile)
 
 	// we unmarshal our byteArray which contains our
 	// jsonFile's content into 'users' which we defined above
@@ -81,4 +76,16 @@ func (r Resolvers) Find() (resolvers []models.Resolver, err error) {
 	}
 
 	return
+}
+
+func (r Resolvers) FetchFromFile() ([]byte, error) {
+	config := config.GetConfig()
+	jsonFile, err := os.Open(config.ResolversFile)
+	if err != nil {
+		log.Errorf("error occurs on open the JSON file: %v", err)
+		return nil, err
+	}
+	defer jsonFile.Close()
+
+	return ioutil.ReadAll(jsonFile)
 }
