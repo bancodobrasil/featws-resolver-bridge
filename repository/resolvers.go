@@ -78,6 +78,7 @@ func (r Resolvers) Find() (resolvers []models.Resolver, err error) {
 	return
 }
 
+// FetchFromFile ...
 func (r Resolvers) FetchFromFile() ([]byte, error) {
 	config := config.GetConfig()
 	jsonFile, err := os.Open(config.ResolversFile)

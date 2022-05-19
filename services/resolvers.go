@@ -41,6 +41,7 @@ func Load() (err error) {
 	return
 }
 
+// FetchFromFile ...
 func FetchFromFile() (result []byte, err error) {
 	result, err = repository.GetResolversRepository().FetchFromFile()
 	if err != nil {
