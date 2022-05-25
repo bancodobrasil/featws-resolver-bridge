@@ -28,15 +28,11 @@ func HealthLiveHandler() gin.HandlerFunc {
 // HealthReadyHandler ...
 func HealthReadyHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Test if the resolvers.json is available
 		_, err := services.FetchFromFile()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, "Application is not ready!!!")
 			return
 		}
-
-		// var code []string
-		// Test the if each resolver were available
 		readyStts := services.CheckHealthReady()
 		readySttsFinal := responses.NewReady(readyStts)
 		if readySttsFinal.Status != "OK" {
@@ -44,19 +40,11 @@ func HealthReadyHandler() gin.HandlerFunc {
 			return
 		}
 		c.JSON(http.StatusOK, readySttsFinal)
-		// re := regexp.MustCompile(`[-]?\d[\d,]*[\.]?[\d{2}]*`)
-		// for _, ready := range readyStts {
-
-		// 	code = re.FindAllString(ready.Status, -1)
-		// 	if !reflect.DeepEqual(code, []string{"200"}) {
-		// 		c.JSON(http.StatusInternalServerError, ready)
-		// 	} else {
-		// 	}
-		// }
 	}
 
 }
 
+// HealthReadyServiceHandler ...
 func HealthReadyServiceHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		service := c.Param("service")
@@ -72,10 +60,6 @@ func HealthReadyServiceHandler() gin.HandlerFunc {
 			return
 		}
 		responses.Status += " Service is ready!!!"
-		// if _, ok := readyStts.Services[service]; !ok {
-		// 	c.JSON(http.StatusNotFound, readyStts)
-		// 	return
-		// }
 		c.JSON(http.StatusOK, responses)
 	}
 }

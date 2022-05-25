@@ -10,6 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// Client ...
 type Client struct {
 	Transport     http.RoundTripper
 	CheckRedirect func(req *http.Request, via []*http.Request) error
@@ -17,6 +18,7 @@ type Client struct {
 	Timeout       time.Duration
 }
 
+// CheckHealthReady ...
 func CheckHealthReady() dtos.Ready {
 	response := dtos.Ready{
 		Services: make(map[string]dtos.ReadyService),
@@ -52,11 +54,14 @@ func CheckHealthReady() dtos.Ready {
 	return response
 }
 
+// CheckHealthLive ...
 func CheckHealthLive() dtos.Live {
 	return dtos.Live{
 		Status: "Application is live!!!",
 	}
 }
+
+// CheckHealthAll ...
 func CheckHealthAll() dtos.HealthAll {
 
 	response := dtos.HealthAll{
