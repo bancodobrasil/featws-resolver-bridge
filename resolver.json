@@ -1,9 +1,0 @@
-{
-  "climatempo": {
-    "type": "http",
-
-    "options": {
-      "url": "http://localhost:7000"
-    }
-  }
-}
