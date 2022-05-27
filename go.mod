@@ -16,8 +16,8 @@ require (
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/afero v1.8.2 // indirect
 	github.com/spf13/viper v1.10.1
-	github.com/swaggo/gin-swagger v1.4.2 // indirect
-	github.com/swaggo/swag v1.8.1 // indirect
+	github.com/swaggo/gin-swagger v1.4.2
+	github.com/swaggo/swag v1.8.1
 	github.com/toorop/gin-logrus v0.0.0-20210225092905-2c785434f26f
 	github.com/ugorji/go v1.2.7 // indirect
 	go.opentelemetry.io/otel/exporters/jaeger v1.6.1 // indirect

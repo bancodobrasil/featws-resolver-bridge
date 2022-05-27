@@ -7,5 +7,8 @@ import (
 
 // Router ...
 func Router(router *gin.RouterGroup) {
+	router.GET("/", controllers.HealthAllHandler())
 	router.GET("/live", controllers.HealthLiveHandler())
+	router.GET("/ready", controllers.HealthReadyHandler())
+	router.GET("/ready/:service", controllers.HealthReadyServiceHandler())
 }
