@@ -1,65 +1,107 @@
 package services
 
 import (
+	"bytes"
+	"context"
+	"encoding/json"
 	"fmt"
-	"sync"
+	"io"
+	"net/http"
+	"strings"
+
+	"github.com/bancodobrasil/featws-resolver-bridge/dtos"
+	"github.com/bancodobrasil/featws-resolver-bridge/models"
+	log "github.com/sirupsen/logrus"
 )
 
-// ResolverFunc define the Resolver Function structure
-type ResolverFunc func(ResolveInput, *ResolveOutput)
+// Resolve ...
+func Resolve(ctx context.Context, resolverName string, dto *dtos.ResolveContext) (err error) {
+	log.Debugf("Resolving with '%s': %s", resolverName, dto)
 
-var lock = &sync.Mutex{}
+	resolver, err := FetchResolver(resolverName)
+	if err != nil {
+		log.Errorf("error occurs on fetch the resolver: %v", err)
+		return
+	}
 
-var resolverFunc ResolverFunc
+	if resolver.Type == "http" {
+		err = resolveHTTP(ctx, resolver, dto)
+		if err != nil {
+			log.Errorf("error occurs on resolve HTTP: %v", err)
+			return
+		}
+	}
 
-// ResolveInput contains all input for resolver execution
-type ResolveInput struct {
+	return
+}
+
+type resolveInputV1 struct {
 	Context map[string]interface{} `json:"context"`
 	Load    []string               `json:"load"`
 }
 
-// ResolveOutput contais all output of resolver execution
-type ResolveOutput struct {
+type resolveOutputV1 struct {
 	Context map[string]interface{} `json:"context"`
 	Errors  map[string]interface{} `json:"errors"`
 }
 
-// SetupResolver to config the current resolver func
-func SetupResolver(rFunc ResolverFunc) {
-	lock.Lock()
-	defer lock.Unlock()
-	if resolverFunc == nil {
-		if resolverFunc == nil {
-			fmt.Println("Creating single instance now.")
-			resolverFunc = rFunc
-		} else {
-			fmt.Println("Single instance already created.")
-		}
-	} else {
-		fmt.Println("Single instance already created.")
+func resolveHTTP(ctx context.Context, resolver models.Resolver, dto *dtos.ResolveContext) (err error) {
+
+	url := fmt.Sprintf("%s/api/v1/resolve", resolver.Options["url"])
+
+	url = strings.ReplaceAll(url, "//api/v1", "/api/v1")
+
+	input := resolveInputV1{
+		Context: dto.Context,
+		Load:    dto.Load,
 	}
-}
 
-// Resolve to execute the resolver
-func Resolve(input ResolveInput) (output *ResolveOutput) {
-	output = &ResolveOutput{
-		Context: input.Context,
-		Errors:  make(map[string]interface{}),
+	var buf bytes.Buffer
+	err = json.NewEncoder(&buf).Encode(input)
+	if err != nil {
+		log.Errorf("error occurs on encoder the JSON: %v", err)
+		return
 	}
-	resolverFunc(input, output)
 
-	if len(input.Load) > 0 {
-		oldContext := output.Context
+	log.Debugf("Resolving with '%s' Encoded: %v", url, buf.String())
 
-		output.Context = make(map[string]interface{})
+	req, err := http.NewRequest("POST", url, &buf)
+	if err != nil {
+		log.Errorf("error occurs on create a request: %v", err)
+		return
+	}
 
-		for _, key := range input.Load {
-			value, ok := oldContext[key]
-			if ok {
-				output.Context[key] = value
-			}
+	if resolver.Options["headers"] != nil {
+		headers := resolver.Options["headers"].(map[string][]string)
+		if len(headers) > 0 {
+			req.Header = headers
 		}
 	}
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Errorf("error occurs on initializate a HTTP client: %v", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Errorf("error occurs on read the reponse body: %v", err)
+		return
+	}
+
+	log.Debugf("Resolving with '%s': %v > %s", url, input, string(data))
+
+	output := resolveOutputV1{}
+	err = json.Unmarshal(data, &output)
+	if err != nil {
+		log.Errorf("error occurs on unmarshal the data into output: %v", err)
+		return
+	}
+
+	dto.Context = output.Context
+	dto.Errors = output.Errors
 
 	return
 }

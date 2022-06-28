@@ -10,13 +10,13 @@ RUN go mod download
 
 COPY . /app
 
-RUN go build -o resolver
+RUN go build -o bridge
 
 FROM alpine:3.15
 
-COPY --from=BUILD /app/resolver /bin/
+COPY --from=BUILD /app/bridge /bin/
 
-CMD [ "resolver" ] 
+CMD [ "bridge" ] 
 
 
 
