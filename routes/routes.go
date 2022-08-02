@@ -1,6 +1,8 @@
 package routes
 
 import (
+	//"canais.fontes.intranet.bb.com.br/cfe/cfe-featws-operations/controllers"
+
 	"github.com/bancodobrasil/featws-resolver-bridge/routes/api"
 	"github.com/bancodobrasil/featws-resolver-bridge/routes/health"
 	"github.com/gin-gonic/gin"
@@ -14,6 +16,8 @@ func SetupRoutes(router *gin.Engine) {
 	homeRouter(router.Group("/"))
 	api.Router(router.Group("/api"))
 	health.Router(router.Group("/health"))
+
 	// setup swagger docs
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 }

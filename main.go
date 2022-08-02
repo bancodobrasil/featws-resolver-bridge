@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	ginlogrus "github.com/toorop/gin-logrus"
 )
 
@@ -66,7 +67,7 @@ func main() {
 	router.Use(ginlogrus.Logger(log.StandardLogger()), gin.Recovery())
 	router.Use(monitor.Prometheus())
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
-	router.Use(telemetry.Middleware("featws-resolver-bridge"))
+	router.Use(telemetry.Middleware(viper.GetString("featws-resolver-bridge")))
 	routes.SetupRoutes(router)
 
 	port := cfg.Port
