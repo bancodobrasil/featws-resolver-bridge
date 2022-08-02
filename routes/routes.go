@@ -1,8 +1,6 @@
 package routes
 
 import (
-	//"canais.fontes.intranet.bb.com.br/cfe/cfe-featws-operations/controllers"
-
 	"github.com/bancodobrasil/featws-resolver-bridge/routes/api"
 	"github.com/bancodobrasil/featws-resolver-bridge/routes/health"
 	"github.com/gin-gonic/gin"
