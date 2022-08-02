@@ -28,7 +28,7 @@ import (
 // @Router 			/resolve/{resolver} [post]
 func ResolveHandler(c *gin.Context) {
 
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 30*time.Second)
 	defer cancel()
 
 	var input payloads.Resolve
