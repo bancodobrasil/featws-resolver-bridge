@@ -11,6 +11,7 @@ import (
 
 	"github.com/bancodobrasil/featws-resolver-bridge/dtos"
 	"github.com/bancodobrasil/featws-resolver-bridge/models"
+	telemetry "github.com/bancodobrasil/gin-telemetry"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -65,7 +66,7 @@ func resolveHTTP(ctx context.Context, resolver models.Resolver, dto *dtos.Resolv
 
 	log.Debugf("Resolving with '%s' Encoded: %v", url, buf.String())
 
-	req, err := http.NewRequest("POST", url, &buf)
+	req, err := http.NewRequestWithContext(ctx, "POST", url, &buf)
 	if err != nil {
 		log.Errorf("error occurs on create a request: %v", err)
 		return
@@ -78,16 +79,21 @@ func resolveHTTP(ctx context.Context, resolver models.Resolver, dto *dtos.Resolv
 		}
 	}
 	client := &http.Client{}
+
+	if !telemetry.MiddlewareDisabled {
+		telemetry.Inject(ctx, req.Header)
+	}
+
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Errorf("error occurs on initializate a HTTP client: %v", err)
+		log.WithContext(ctx).Errorf("error occurs on initializate a HTTP client: %v", err)
 		return
 	}
 	defer resp.Body.Close()
 
 	data, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Errorf("error occurs on read the reponse body: %v", err)
+		log.WithContext(ctx).Errorf("error occurs on read the reponse body: %v", err)
 		return
 	}
 
@@ -96,7 +102,7 @@ func resolveHTTP(ctx context.Context, resolver models.Resolver, dto *dtos.Resolv
 	output := resolveOutputV1{}
 	err = json.Unmarshal(data, &output)
 	if err != nil {
-		log.Errorf("error occurs on unmarshal the data into output: %v", err)
+		log.WithContext(ctx).Errorf("error occurs on unmarshal the data into output: %v", err)
 		return
 	}
 
