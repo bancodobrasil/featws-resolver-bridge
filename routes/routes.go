@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"github.com/bancodobrasil/featws-resolver-bridge/config"
+	"github.com/bancodobrasil/featws-resolver-bridge/docs"
 	"github.com/bancodobrasil/featws-resolver-bridge/routes/api"
 	"github.com/bancodobrasil/featws-resolver-bridge/routes/health"
 	telemetry "github.com/bancodobrasil/gin-telemetry"
@@ -11,6 +13,9 @@ import (
 
 // SetupRoutes define all routes
 func SetupRoutes(router *gin.Engine) {
+
+	cfg := config.GetConfig()
+	docs.SwaggerInfo.Host = cfg.ExternalHost
 
 	homeRouter(router.Group("/"))
 	health.Router(router.Group("/health"))
