@@ -12,6 +12,7 @@ type Config struct {
 	Port          string `mapstructure:"PORT"`
 	ResolversFile string `mapstructure:"FEATWS_RESOLVER_BRIDGE_RESOLVERS_FILE"`
 	ReadyTimeout  int64  `mapstructure:"FEATWS_RESOLVER_BRIDGE_READY_TIMEOUT"`
+	ExternalHost  string `mapstructure:"EXTERNAL_HOST"`
 }
 
 var config = &Config{}
@@ -27,6 +28,7 @@ func LoadConfig() (err error) {
 	viper.SetDefault("PORT", "9000")
 	viper.SetDefault("FEATWS_RESOLVER_BRIDGE_RESOLVERS_FILE", "./resolvers.json")
 	viper.SetDefault("FEATWS_RESOLVER_BRIDGE_READY_TIMEOUT", 2)
+	viper.SetDefault("EXTERNAL_HOST", "localhost:9000")
 
 	err = viper.ReadInConfig()
 	if err != nil {
