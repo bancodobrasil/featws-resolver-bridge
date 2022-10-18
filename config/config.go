@@ -12,10 +12,9 @@ type Config struct {
 	Port          string `mapstructure:"PORT"`
 	ResolversFile string `mapstructure:"FEATWS_RESOLVER_BRIDGE_RESOLVERS_FILE"`
 	ReadyTimeout  int64  `mapstructure:"FEATWS_RESOLVER_BRIDGE_READY_TIMEOUT"`
-	ReadyTimeout  int64  `mapstructure:"FEATWS_RESOLVER_BRIDGE_READY_TIMEOUT"`
 	ExternalHost  string `mapstructure:"EXTERNAL_HOST"`
 
-	AuthAPIKey string `mapstructure:"FEATWS_RESOLVER_BRIDGE_API_KEY`
+	AuthAPIKey string `mapstructure:"FEATWS_RESOLVER_BRIDGE_API_KEY"`
 }
 
 var config = &Config{}
