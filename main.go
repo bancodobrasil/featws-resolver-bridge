@@ -37,6 +37,10 @@ func setupLog() {
 // @host localhost:9000
 // @BasePath /api/v1
 
+// @securityDefinitions.apikey Authentication Api Key
+// @in header
+// @name X-API-Key
+
 // @x-extension-openapi {"example": "value on a json format"}
 
 func main() {

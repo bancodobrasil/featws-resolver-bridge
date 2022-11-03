@@ -25,6 +25,7 @@ import (
 // @Failure 		400,404 {object} string
 // @Failure 		500 {object} string
 // @Failure 		default {object} string
+// @Security 		Authentication Api Key
 // @Router 			/resolve/{resolver} [post]
 func ResolveHandler(c *gin.Context) {
 
@@ -74,6 +75,7 @@ func ResolveHandler(c *gin.Context) {
 // @Failure 		400,404 {object} string
 // @Failure 		500 {object} string
 // @Failure 		default {object} string
+// @Security 		Authentication Api Key
 // @Router 			/load [get]
 func LoadHandler(c *gin.Context) {
 
