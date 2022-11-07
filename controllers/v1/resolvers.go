@@ -20,6 +20,7 @@ import (
 // @Failure 		400,404 {object} string
 // @Failure 		500 {object} string
 // @Failure 		default {object} string
+// @Security 		Authentication Api Key
 // @Router 			/resolvers/ [get]
 func ResolversHandler(c *gin.Context) {
 

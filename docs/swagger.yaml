@@ -57,51 +57,11 @@ paths:
           description: ""
           schema:
             type: string
+      security:
+      - Authentication Api Key: []
       summary: Load Resolvers
       tags:
       - load
-  /resolve:
-    post:
-      consumes:
-      - application/json
-      description: Resolvers description
-      parameters:
-      - description: resolver
-        in: path
-        name: resolver
-        type: string
-      - description: Parameters
-        in: body
-        name: parameters
-        required: true
-        schema:
-          $ref: '#/definitions/v1.Resolve'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: ok
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            type: string
-        "404":
-          description: Not Found
-          schema:
-            type: string
-        "500":
-          description: Internal Server Error
-          schema:
-            type: string
-        default:
-          description: ""
-          schema:
-            type: string
-      summary: Execute the Resolve resolutions
-      tags:
-      - resolve
   /resolve/{resolver}:
     post:
       consumes:
@@ -141,6 +101,8 @@ paths:
           description: ""
           schema:
             type: string
+      security:
+      - Authentication Api Key: []
       summary: Execute the Resolve resolutions
       tags:
       - resolve
@@ -172,9 +134,16 @@ paths:
           description: ""
           schema:
             type: string
+      security:
+      - Authentication Api Key: []
       summary: List Resolvers
       tags:
       - resolvers
+securityDefinitions:
+  Authentication Api Key:
+    in: header
+    name: X-API-Key
+    type: apiKey
 swagger: "2.0"
 x-extension-openapi:
   example: value on a json format

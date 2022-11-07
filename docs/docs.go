@@ -27,6 +27,11 @@ const docTemplate = `{
     "paths": {
         "/load": {
             "get": {
+                "security": [
+                    {
+                        "Authentication Api Key": []
+                    }
+                ],
                 "description": "Load Resolvers description",
                 "consumes": [
                     "application/json"
@@ -72,72 +77,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/resolve": {
-            "post": {
-                "description": "Resolvers description",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "resolve"
-                ],
-                "summary": "Execute the Resolve resolutions",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "resolver",
-                        "name": "resolver",
-                        "in": "path"
-                    },
-                    {
-                        "description": "Parameters",
-                        "name": "parameters",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/v1.Resolve"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "ok",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "default": {
-                        "description": "",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
         "/resolve/{resolver}": {
             "post": {
+                "security": [
+                    {
+                        "Authentication Api Key": []
+                    }
+                ],
                 "description": "Resolvers description",
                 "consumes": [
                     "application/json"
@@ -202,6 +148,11 @@ const docTemplate = `{
         },
         "/resolvers/": {
             "get": {
+                "security": [
+                    {
+                        "Authentication Api Key": []
+                    }
+                ],
                 "description": "List Resolvers description",
                 "consumes": [
                     "application/json"
@@ -270,6 +221,13 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "Authentication Api Key": {
+            "type": "apiKey",
+            "name": "X-API-Key",
+            "in": "header"
         }
     },
     "x-extension-openapi": {
