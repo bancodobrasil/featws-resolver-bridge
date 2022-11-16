@@ -5,11 +5,12 @@ go 1.16
 require (
 	github.com/bancodobrasil/gin-monitor v1.0.0-rc1
 	github.com/bancodobrasil/gin-telemetry v0.0.1-rc5
+	github.com/bancodobrasil/goauth v1.0.2
+	github.com/bancodobrasil/goauth-gin v0.0.3
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-openapi/spec v0.20.5 // indirect
 	github.com/go-openapi/swag v0.21.1 // indirect
 	github.com/go-playground/validator/v10 v10.11.0
-	github.com/goccy/go-json v0.9.11 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/prometheus/client_golang v1.12.1
 	github.com/prometheus/common v0.33.0 // indirect
