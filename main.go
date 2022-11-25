@@ -5,9 +5,9 @@ import (
 
 	"github.com/bancodobrasil/featws-resolver-bridge/config"
 	_ "github.com/bancodobrasil/featws-resolver-bridge/docs"
-	"github.com/bancodobrasil/featws-resolver-bridge/middlewares"
 	"github.com/bancodobrasil/featws-resolver-bridge/routes"
 	ginMonitor "github.com/bancodobrasil/gin-monitor"
+	"github.com/bancodobrasil/goauth"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
@@ -68,7 +68,7 @@ func main() {
 
 	router := gin.New()
 
-	middlewares.InitializeMiddlewares()
+	goauth.BootstrapMiddleware()
 
 	router.Use(ginlogrus.Logger(log.StandardLogger()), gin.Recovery())
 	router.Use(monitor.Prometheus())
