@@ -15,8 +15,8 @@ import (
 
 // ResolveHandler godoc
 // @Summary 		Execute the Resolve resolutions
-// @Description Resolvers description
-// @Tags 				resolve
+// @Description 	Resolvers description
+// @Tags 			resolve
 // @Accept  		json
 // @Produce  		json
 // @Param           resolver path string false "resolver"
@@ -65,10 +65,10 @@ func ResolveHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, resolverOutput)
 }
 
-// LoadHandler godoc
+// LoadHandler 		godoc
 // @Summary 		Load Resolvers
-// @Description Load Resolvers description
-// @Tags 				load
+// @Description 	Load Resolvers description
+// @Tags 			load
 // @Accept  		json
 // @Produce  		json
 // @Success 		200 {object} string "ok"

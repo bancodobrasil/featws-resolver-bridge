@@ -101,7 +101,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/v1.Resolve"
+                            "$ref": "#/definitions/github_com_bancodobrasil_featws-resolver-bridge_payloads_v1.Resolve"
                         }
                     }
                 ],
@@ -193,7 +193,7 @@
         }
     },
     "definitions": {
-        "v1.Resolve": {
+        "github_com_bancodobrasil_featws-resolver-bridge_payloads_v1.Resolve": {
             "type": "object",
             "properties": {
                 "context": {
