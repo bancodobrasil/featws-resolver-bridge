@@ -1,5 +1,7 @@
-# Featws Resolver Bridge
+[![Go Reference](https://pkg.go.dev/badge/github.com/abu-lang/goabu.svg)](https://pkg.go.dev/github.com/bancodobrasil/featws-resolver-bridge)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/bancodobrasil/featws-resolver-bridge/blob/develop/LICENSE)
 
+# Featws Resolver Bridge [![About_en](https://github.com/yammadev/flag-icons/blob/master/png/BR.png?raw=true)](https://github.com/bancodobrasil/featws-resolver-bridge/blob/develop/README-PTBR.md)
 ## How to run
 
 In order to run this project, you need to have certain prerequisites set up on your machine. These prerequisites include:

@@ -12,8 +12,8 @@ import (
 
 // ResolversHandler godoc
 // @Summary 		List Resolvers
-// @Description List Resolvers description
-// @Tags 				resolvers
+// @Description 	List Resolvers description
+// @Tags 			resolvers
 // @Accept  		json
 // @Produce  		json
 // @Success 		200 {object} string "ok"

@@ -27,6 +27,9 @@ func setupLog() {
 // @Description     O Bridge é um padrão de design estrutural que ajuda a dividir uma classe grande ou um conjunto de classes intimamente relacionadas em duas hierarquias distintas, para saber mais [**clique aqui**](https://refactoring.guru/pt-br/design-patterns/bridge). Essas duas hierarquias podem ser desenvolvidas independentemente uma da outra, permitindo maior flexibilidade e escalabilidade no desenvolvimento de software. Basicamente, o padrão Bridge é uma solução para o problema de como separar a interface de uma classe de sua implementação, permitindo que ambas evoluam independentemente.
 // @Description
 // @Description    	O projeto FeatWS Resolver Bridge tem como objetivo estabelecer a ligação entre o [**motor de regras**](https://github.com/bancodobrasil/featws-ruller) do projeto e os demais resolvers, ou possíveis resolvers, de forma a permitir uma maior flexibilidade na estruturação e desenvolvimento de software. De modo mais detalhado, essa abordagem de design estrutural proporciona a separação da lógica de implementação da abstração do código, permitindo que ambas evoluam independentemente uma da outra. Isso possibilita a utilização de diferentes tipos de resolvers no projeto, de forma a atender às necessidades específicas do negócio.
+// @Description
+// @Description Antes de realizar as requisições no Swagger, é necessário autorizar o acesso clicando no botão **Authorize**, ao lado, e inserindo a senha correspondente. Após inserir o campo **value** e clicar no botão **Authorize**, o Swagger estará disponível para ser utilizado.
+// @Description
 // @termsOfService 	http://swagger.io/terms/
 
 // @contact.name 	API Support
