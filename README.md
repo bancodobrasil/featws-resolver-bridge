@@ -17,6 +17,6 @@ To run the project, follow these steps:
 
 - Finally, run the command `make run` to start the project.
 
-The project will run on `localhost:9000/`. To access the Swagger documentation [click here](http://localhost:9000/swagger/index.html#/resolve/post_resolve__resolver_).
+The project will run on `localhost:9000/`. To access the Swagger documentation [click here](http://localhost:9000/swagger/index.html#/).
 
 By following these steps, the project will be up and running, and you will be able to access the API documentation through Swagger.

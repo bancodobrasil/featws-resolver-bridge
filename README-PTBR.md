@@ -20,6 +20,6 @@ Para executar o projeto, siga estes passos:
 
 - Finalmente, execute o comando `make run` para iniciar o projeto.
 
-O projeto será executado em `localhost:9000`. Para acessar a documentação do Swagger, [clique aqui](http://localhost:9000/swagger/index.html#/resolve/post_resolve__resolver_).
+O projeto será executado em `localhost:9000`. Para acessar a documentação do Swagger, [clique aqui](http://localhost:9000/swagger/index.html#/).
 
 Seguindo estes passos, o projeto estará em execução e você poderá acessar a documentação da API através do Swagger.
