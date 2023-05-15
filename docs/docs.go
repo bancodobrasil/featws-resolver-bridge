@@ -32,7 +32,7 @@ const docTemplate = `{
                         "Authentication Api Key": []
                     }
                 ],
-                "description": "Load Resolvers description",
+                "description": "Carrega as descrições dos Resolvers",
                 "consumes": [
                     "application/json"
                 ],
@@ -42,7 +42,7 @@ const docTemplate = `{
                 "tags": [
                     "load"
                 ],
-                "summary": "Load Resolvers",
+                "summary": "Carrega os Resolvers",
                 "responses": {
                     "200": {
                         "description": "ok",
@@ -94,7 +94,7 @@ const docTemplate = `{
                 "tags": [
                     "resolve"
                 ],
-                "summary": "Execute the Resolve resolutions",
+                "summary": "Executa as resoluções do Resolve",
                 "parameters": [
                     {
                         "type": "string",
@@ -153,7 +153,7 @@ const docTemplate = `{
                         "Authentication Api Key": []
                     }
                 ],
-                "description": "List Resolvers description",
+                "description": "Lista a descrição dos Resolvers",
                 "consumes": [
                     "application/json"
                 ],
@@ -163,7 +163,7 @@ const docTemplate = `{
                 "tags": [
                     "resolvers"
                 ],
-                "summary": "List Resolvers",
+                "summary": "Lista os Resolvers",
                 "responses": {
                     "200": {
                         "description": "ok",

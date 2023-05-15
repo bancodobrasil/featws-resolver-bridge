@@ -38,7 +38,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Load Resolvers description
+      description: Carrega as descrições dos Resolvers
       produces:
       - application/json
       responses:
@@ -64,7 +64,7 @@ paths:
             type: string
       security:
       - Authentication Api Key: []
-      summary: Load Resolvers
+      summary: Carrega os Resolvers
       tags:
       - load
   /resolve/{resolver}:
@@ -165,14 +165,14 @@ paths:
             type: string
       security:
       - Authentication Api Key: []
-      summary: Execute the Resolve resolutions
+      summary: Executa as resoluções do Resolve
       tags:
       - resolve
   /resolvers/:
     get:
       consumes:
       - application/json
-      description: List Resolvers description
+      description: Lista a descrição dos Resolvers
       produces:
       - application/json
       responses:
@@ -198,7 +198,7 @@ paths:
             type: string
       security:
       - Authentication Api Key: []
-      summary: List Resolvers
+      summary: Lista os Resolvers
       tags:
       - resolvers
 securityDefinitions:

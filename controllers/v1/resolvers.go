@@ -11,8 +11,8 @@ import (
 )
 
 // ResolversHandler godoc
-// @Summary 		List Resolvers
-// @Description 	List Resolvers description
+// @Summary 		Lista os Resolvers
+// @Description 	Lista a descrição dos Resolvers
 // @Tags 			resolvers
 // @Accept  		json
 // @Produce  		json
