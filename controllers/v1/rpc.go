@@ -14,9 +14,66 @@ import (
 )
 
 // ResolveHandler godoc
-// @Summary 		Execute the Resolve resolutions
-// @Description Resolvers description
-// @Tags 				resolve
+// @Summary 		Executa as resoluções do Resolve
+// @Description
+// @Description		O Resolver Bridge pode ser usado para buscar dados em outros resolvers que fazem parte do FeatWS, podendo retornar diversos parâmetros, como os seguintes:
+// @Description
+// @Description		- account (conta)
+// @Description		- accountType (tipo de conta)
+// @Description		- age (idade)
+// @Description		- agenciaDet (tipo de conta)
+// @Description		- branch (agencia)
+// @Description		- branchState (Estado da agencia)
+// @Description		- customerBase (agencia)
+// @Description		- dataNascimento (data de nascimento)
+// @Description		- employeeDependency (Dependecia do empregado do banco - só trará um retorno se a pessoa for funci do banco)
+// @Description		- employeeKey (se é empregado do banco)
+// @Description		- enterpriseKey (chave empresarial)
+// @Description		- gender (sexo)
+// @Description		- holder (titularidade da conta)
+// @Description		- holderState (estado do titularidade da conta)
+// @Description		- mci
+// @Description		- mcipj
+// @Description		- wallet (carteira)
+// @Description
+// @Description 	No geral, o Resolver Adapter Project é uma biblioteca útil que pode simplificar o desenvolvimento de APIs GraphQL fornecendo resolvers pré-construídos que podem ser facilmente integrados em outros projetos.
+// @Description
+// @Description		Para conseguir utilizar o endpoint é necessário colocar no body, dentro do *context*, contexto, da requisição a agencia do cliente, *branch*, como também, a conta do mesmo, *account*, como o exemplo a seguir:
+// @Description
+// @Description		```
+// @Description		{
+// @Description		"context": {
+// @Description			"account": “7894”,
+// @Description			"branch": “4024”,
+// @Description		},
+// @Description		"load":[]
+// @Description		}
+// @Description		```
+// @Description
+// @Description		Com esse input o body de resposta trará todos os parâmetros da conta. O *load* é opcional na requisição. Nele é possível passar parâmetros que você deseja buscar no banco de dados ao invés de buscar todos os parâmetros, podendo buscar quantos sejam necessários, como o exemplo a seguir:
+// @Description
+// @Description		```
+// @Description		{
+// @Description		"context": {
+// @Description			"account": "7894",
+// @Description			"branch": "4024",
+// @Description		},
+// @Description		"load":["age","gender","holder"]
+// @Description		}
+// @Description		```
+// @Description		Com esse input o body de resposta será trago dentro do parâmetro *context*, contexto.
+// @Description
+// @Description		```
+// @Description		{
+// @Description		"context": {
+// @Description		"age": "36",
+// @Description		"gender": "M",
+// @Description		"holder": "1"
+// @Description		},
+// @Description		"errors": {}
+// @Description		}
+// @Description		```
+// @Tags 			resolve
 // @Accept  		json
 // @Produce  		json
 // @Param           resolver path string false "resolver"
@@ -65,10 +122,10 @@ func ResolveHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, resolverOutput)
 }
 
-// LoadHandler godoc
-// @Summary 		Load Resolvers
-// @Description Load Resolvers description
-// @Tags 				load
+// LoadHandler 		godoc
+// @Summary 		Carrega os Resolvers
+// @Description 	Carrega as descrições dos Resolvers
+// @Tags 			load
 // @Accept  		json
 // @Produce  		json
 // @Success 		200 {object} string "ok"
