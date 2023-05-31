@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// resolversRouter sets up a GET route for a specific endpoint in a Gin router group.
 func resolversRouter(router *gin.RouterGroup) {
 	router.GET("/", v1.ResolversHandler)
 }

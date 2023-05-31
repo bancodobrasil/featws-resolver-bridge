@@ -5,7 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Router ...
+// Router sets up the routing for various health check endpoints in a Go web application using
+// the Gin framework.
 func Router(router *gin.RouterGroup) {
 	router.GET("/", controllers.HealthAllHandler())
 	router.GET("/live", controllers.HealthLiveHandler())
