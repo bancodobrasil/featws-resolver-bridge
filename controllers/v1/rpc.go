@@ -13,7 +13,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// This function handles resolving a context using a specified resolver and returns the result as a
+// ResolveHandler handles resolving a context using a specified resolver and returns the result as a
 // JSON response.
 //
 // @Summary 		Executa as resoluções do Resolve
