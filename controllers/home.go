@@ -13,8 +13,7 @@ import (
 
 // }
 
-// HomeHandler ...
+// HomeHandler returns a string indicating that the FeatWS Resolver Bridge works.
 func HomeHandler(c *gin.Context) {
 	c.String(http.StatusOK, "FeatWS Resolver Bridge Works!!!")
-
 }
