@@ -13,7 +13,9 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// ResolveHandler godoc
+// ResolveHandler handles resolving a context using a specified resolver and returns the result as a
+// JSON response.
+//
 // @Summary 		Executa as resoluções do Resolve
 // @Description
 // @Description		O Resolver Bridge pode ser usado para buscar dados em outros resolvers que fazem parte do FeatWS, podendo retornar diversos parâmetros, como os seguintes:
@@ -122,7 +124,8 @@ func ResolveHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, resolverOutput)
 }
 
-// LoadHandler 		godoc
+// LoadHandler loads data and returns an error message if there is an issue.
+//
 // @Summary 		Carrega os Resolvers
 // @Description 	Carrega as descrições dos Resolvers
 // @Tags 			load

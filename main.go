@@ -14,6 +14,7 @@ import (
 	ginlogrus "github.com/toorop/gin-logrus"
 )
 
+// setupLog sets up the logging configuration for a Go program.
 func setupLog() {
 	log.SetFormatter(&log.TextFormatter{FullTimestamp: true})
 
@@ -48,6 +49,8 @@ func setupLog() {
 
 // @x-extension-openapi {"example": "value on a json format"}
 
+// main sets up a server using the Gin framework with middleware and routes, and starts it on
+// a specified port.
 func main() {
 
 	setupLog()
@@ -75,6 +78,7 @@ func main() {
 
 	goauth.BootstrapMiddleware()
 
+	// setting up middleware and routes for a server using the Gin framework.
 	router.Use(ginlogrus.Logger(log.StandardLogger()), gin.Recovery())
 	router.Use(monitor.Prometheus())
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))

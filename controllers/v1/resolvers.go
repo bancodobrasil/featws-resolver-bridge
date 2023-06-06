@@ -10,7 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ResolversHandler godoc
+// ResolversHandler handles a request to fetch resolvers and returns a JSON response containing the
+// fetched data.
+//
 // @Summary 		Lista os Resolvers
 // @Description 	Lista a descrição dos Resolvers
 // @Tags 			resolvers
