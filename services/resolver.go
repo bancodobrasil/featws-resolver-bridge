@@ -36,16 +36,28 @@ func Resolve(ctx context.Context, resolverName string, dto *dtos.ResolveContext)
 	return
 }
 
+// resolveInputV1 defines a struct for resolving input in Go, which includes a context map and a load array.
+//
+// Property:
+//   - Context: Context is a map of key-value pairs that provide additional information or context for the input being resolved. This can include things like user preferences, previous interactions, or any other relevant data that can help with resolving the input.
+//   - Load: is a slice of strings that specifies the data that needs to be loaded for processing the input. It could be the names of specific modules, functions, or any other data required for the processing.
 type resolveInputV1 struct {
 	Context map[string]interface{} `json:"context"`
 	Load    []string               `json:"load"`
 }
 
+// resolveOutputV1 has two fields, `Context` and `Errors`, both of which are maps with
+// string keys and interface{} values, and is used for JSON serialization.
+//
+// Property:
+//   - Context: The `Context` property is a map that stores key-value pairs of contextual information related to the output. This information can be used to provide additional context or metadata about the output.
+//   - Errors: The `Errors` property is a map that contains any errors that occurred during the resolution process. The keys of the map are strings that identify the specific error, and the values are any additional information about the error.
 type resolveOutputV1 struct {
 	Context map[string]interface{} `json:"context"`
 	Errors  map[string]interface{} `json:"errors"`
 }
 
+// resolveHTTP resolves a HTTP request using a given resolver and input data.
 func resolveHTTP(ctx context.Context, resolver models.Resolver, dto *dtos.ResolveContext) (err error) {
 
 	url := fmt.Sprintf("%s/api/v1/resolve", resolver.Options["url"])

@@ -1,13 +1,13 @@
 package v1
 
 import (
-	"github.com/bancodobrasil/featws-resolver-bridge/middlewares"
+	goauthgin "github.com/bancodobrasil/goauth-gin"
 	"github.com/gin-gonic/gin"
 )
 
 // Router define routes the API V1
 func Router(router *gin.RouterGroup) {
-	router.Use(middlewares.VerifyAPIKey())
+	router.Use(goauthgin.Authenticate())
 	resolversRouter(router.Group("/resolvers"))
 	rpcRouter(router.Group("/"))
 }

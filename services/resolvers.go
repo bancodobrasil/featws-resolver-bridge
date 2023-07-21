@@ -6,7 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// FetchResolver ...
+// FetchResolver fetches a resolver from a repository by name.
 func FetchResolver(name string) (result models.Resolver, err error) {
 
 	result, err = repository.GetResolversRepository().Get(name)
@@ -18,7 +18,7 @@ func FetchResolver(name string) (result models.Resolver, err error) {
 	return
 }
 
-// FetchResolvers ...
+// FetchResolvers retrieves a list of resolvers from a repository.
 func FetchResolvers() (result []models.Resolver, err error) {
 
 	result, err = repository.GetResolversRepository().Find()
@@ -29,7 +29,7 @@ func FetchResolvers() (result []models.Resolver, err error) {
 	return
 }
 
-// Load ...
+// Load function loads the resolvers repository and logs any errors that occur.
 func Load() (err error) {
 
 	err = repository.GetResolversRepository().Load()
@@ -41,7 +41,7 @@ func Load() (err error) {
 	return
 }
 
-// FetchFromFile ...
+// FetchFromFile fetches data from a resolvers repository file and logs any errors that occur.
 func FetchFromFile() (result []byte, err error) {
 	result, err = repository.GetResolversRepository().FetchFromFile()
 	if err != nil {

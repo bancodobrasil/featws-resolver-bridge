@@ -1,6 +1,6 @@
 basePath: /api/v1
 definitions:
-  v1.Resolve:
+  github_com_bancodobrasil_featws-resolver-bridge_payloads_v1.Resolve:
     properties:
       context:
         additionalProperties: true
@@ -21,7 +21,12 @@ info:
     email: support@swagger.io
     name: API Support
     url: http://www.swagger.io/support
-  description: API Project that provide the data of datacenter to FeatWS
+  description: |
+    O Bridge é um padrão de design estrutural que ajuda a dividir uma classe grande ou um conjunto de classes intimamente relacionadas em duas hierarquias distintas, para saber mais [**clique aqui**](https://refactoring.guru/pt-br/design-patterns/bridge). Essas duas hierarquias podem ser desenvolvidas independentemente uma da outra, permitindo maior flexibilidade e escalabilidade no desenvolvimento de software. Basicamente, o padrão Bridge é uma solução para o problema de como separar a interface de uma classe de sua implementação, permitindo que ambas evoluam independentemente.
+
+    O projeto FeatWS Resolver Bridge tem como objetivo estabelecer a ligação entre o [**motor de regras**](https://github.com/bancodobrasil/featws-ruller) do projeto e os demais resolvers, ou possíveis resolvers, de forma a permitir uma maior flexibilidade na estruturação e desenvolvimento de software. De modo mais detalhado, essa abordagem de design estrutural proporciona a separação da lógica de implementação da abstração do código, permitindo que ambas evoluam independentemente uma da outra. Isso possibilita a utilização de diferentes tipos de resolvers no projeto, de forma a atender às necessidades específicas do negócio.
+
+    Antes de realizar as requisições no Swagger, é necessário autorizar o acesso clicando no botão **Authorize**, ao lado, e inserindo a senha correspondente. Após inserir o campo **value** e clicar no botão **Authorize**, o Swagger estará disponível para ser utilizado.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -33,7 +38,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Load Resolvers description
+      description: Carrega as descrições dos Resolvers
       produces:
       - application/json
       responses:
@@ -57,56 +62,73 @@ paths:
           description: ""
           schema:
             type: string
-      summary: Load Resolvers
+      security:
+      - Authentication Api Key: []
+      summary: Carrega os Resolvers
       tags:
       - load
-  /resolve:
-    post:
-      consumes:
-      - application/json
-      description: Resolvers description
-      parameters:
-      - description: resolver
-        in: path
-        name: resolver
-        type: string
-      - description: Parameters
-        in: body
-        name: parameters
-        required: true
-        schema:
-          $ref: '#/definitions/v1.Resolve'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: ok
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            type: string
-        "404":
-          description: Not Found
-          schema:
-            type: string
-        "500":
-          description: Internal Server Error
-          schema:
-            type: string
-        default:
-          description: ""
-          schema:
-            type: string
-      summary: Execute the Resolve resolutions
-      tags:
-      - resolve
   /resolve/{resolver}:
     post:
       consumes:
       - application/json
-      description: Resolvers description
+      description: |-
+        O Resolver Bridge pode ser usado para buscar dados em outros resolvers que fazem parte do FeatWS, podendo retornar diversos parâmetros, como os seguintes:
+
+        - account (conta)
+        - accountType (tipo de conta)
+        - age (idade)
+        - agenciaDet (tipo de conta)
+        - branch (agencia)
+        - branchState (Estado da agencia)
+        - customerBase (agencia)
+        - dataNascimento (data de nascimento)
+        - employeeDependency (Dependecia do empregado do banco - só trará um retorno se a pessoa for funci do banco)
+        - employeeKey (se é empregado do banco)
+        - enterpriseKey (chave empresarial)
+        - gender (sexo)
+        - holder (titularidade da conta)
+        - holderState (estado do titularidade da conta)
+        - mci
+        - mcipj
+        - wallet (carteira)
+
+        No geral, o Resolver Adapter Project é uma biblioteca útil que pode simplificar o desenvolvimento de APIs GraphQL fornecendo resolvers pré-construídos que podem ser facilmente integrados em outros projetos.
+
+        Para conseguir utilizar o endpoint é necessário colocar no body, dentro do *context*, contexto, da requisição a agencia do cliente, *branch*, como também, a conta do mesmo, *account*, como o exemplo a seguir:
+
+        ```
+        {
+        "context": {
+        "account": “7894”,
+        "branch": “4024”,
+        },
+        "load":[]
+        }
+        ```
+
+        Com esse input o body de resposta trará todos os parâmetros da conta. O *load* é opcional na requisição. Nele é possível passar parâmetros que você deseja buscar no banco de dados ao invés de buscar todos os parâmetros, podendo buscar quantos sejam necessários, como o exemplo a seguir:
+
+        ```
+        {
+        "context": {
+        "account": "7894",
+        "branch": "4024",
+        },
+        "load":["age","gender","holder"]
+        }
+        ```
+        Com esse input o body de resposta será trago dentro do parâmetro *context*, contexto.
+
+        ```
+        {
+        "context": {
+        "age": "36",
+        "gender": "M",
+        "holder": "1"
+        },
+        "errors": {}
+        }
+        ```
       parameters:
       - description: resolver
         in: path
@@ -117,7 +139,7 @@ paths:
         name: parameters
         required: true
         schema:
-          $ref: '#/definitions/v1.Resolve'
+          $ref: '#/definitions/github_com_bancodobrasil_featws-resolver-bridge_payloads_v1.Resolve'
       produces:
       - application/json
       responses:
@@ -141,14 +163,16 @@ paths:
           description: ""
           schema:
             type: string
-      summary: Execute the Resolve resolutions
+      security:
+      - Authentication Api Key: []
+      summary: Executa as resoluções do Resolve
       tags:
       - resolve
   /resolvers/:
     get:
       consumes:
       - application/json
-      description: List Resolvers description
+      description: Lista a descrição dos Resolvers
       produces:
       - application/json
       responses:
@@ -172,9 +196,16 @@ paths:
           description: ""
           schema:
             type: string
-      summary: List Resolvers
+      security:
+      - Authentication Api Key: []
+      summary: Lista os Resolvers
       tags:
       - resolvers
+securityDefinitions:
+  Authentication Api Key:
+    in: header
+    name: X-API-Key
+    type: apiKey
 swagger: "2.0"
 x-extension-openapi:
   example: value on a json format

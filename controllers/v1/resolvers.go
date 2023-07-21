@@ -10,16 +10,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ResolversHandler godoc
-// @Summary 		List Resolvers
-// @Description List Resolvers description
-// @Tags 				resolvers
+// ResolversHandler handles a request to fetch resolvers and returns a JSON response containing the
+// fetched data.
+//
+// @Summary 		Lista os Resolvers
+// @Description 	Lista a descrição dos Resolvers
+// @Tags 			resolvers
 // @Accept  		json
 // @Produce  		json
 // @Success 		200 {object} string "ok"
 // @Failure 		400,404 {object} string
 // @Failure 		500 {object} string
 // @Failure 		default {object} string
+// @Security 		Authentication Api Key
 // @Router 			/resolvers/ [get]
 func ResolversHandler(c *gin.Context) {
 

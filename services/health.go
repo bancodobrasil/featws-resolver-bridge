@@ -10,7 +10,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Client ...
+// Client type in Go represents an HTTP client with customizable transport, redirect handling,
+// cookie jar, and timeout.
+//
+// Property:
+//   - Transport: is a property of the Client struct that represents the mechanism used to make HTTP requests. It is an interface that defines the behavior of an HTTP client. The default transport used by the Client is the http.DefaultTransport, which is an implementation of the Transport interface provided by the Go standard library.
+//   - CheckRedirect: is a function that specifies the policy for handling redirects. It takes in the original request and a slice of requests that were made in the redirect chain. It returns an error if the redirect should not be followed, or nil if it should be followed.
+//   - Jar: The `Jar` property is of type `http.CookieJar` and is used to store and manage cookies for HTTP requests. Cookies are small pieces of data that are sent from a website to a user's web browser and are used to remember user preferences, login information, and other data.
+//   - Timeout: Timeout is a property of the Client struct that specifies the maximum amount of time a request can take before it is cancelled. It is of type time.Duration, which allows for specifying the timeout in units such as seconds, milliseconds, or nanoseconds.
 type Client struct {
 	Transport     http.RoundTripper
 	CheckRedirect func(req *http.Request, via []*http.Request) error
@@ -18,7 +25,8 @@ type Client struct {
 	Timeout       time.Duration
 }
 
-// CheckHealthReady ...
+// CheckHealthReady checks the health readiness of services by fetching resolvers and making HTTP requests
+// to their URLs.
 func CheckHealthReady() dtos.Ready {
 	response := dtos.Ready{
 		Services: make(map[string]dtos.ReadyService),
@@ -54,14 +62,15 @@ func CheckHealthReady() dtos.Ready {
 	return response
 }
 
-// CheckHealthLive ...
+// CheckHealthLive returns a DTO object indicating that the application is live.
 func CheckHealthLive() dtos.Live {
 	return dtos.Live{
 		Status: "Application is live!!!",
 	}
 }
 
-// CheckHealthAll ...
+// CheckHealthAll checks the health status of all services and returns a response with their live and
+// ready status.
 func CheckHealthAll() dtos.HealthAll {
 
 	response := dtos.HealthAll{

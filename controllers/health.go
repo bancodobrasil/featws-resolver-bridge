@@ -9,7 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// HealthAllHandler ...
+// HealthAllHandler returns a Gin handler function that checks the health of all services and returns the
+// result in JSON format.
 func HealthAllHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.JSON(http.StatusOK, services.CheckHealthAll())
@@ -17,7 +18,8 @@ func HealthAllHandler() gin.HandlerFunc {
 	}
 }
 
-// HealthLiveHandler ...
+// HealthLiveHandler returns a Gin handler function that checks the health status of a service and returns
+// it as a JSON response.
 func HealthLiveHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.JSON(http.StatusOK, services.CheckHealthLive())
@@ -25,7 +27,7 @@ func HealthLiveHandler() gin.HandlerFunc {
 
 }
 
-// HealthReadyHandler ...
+// HealthReadyHandler checks if the application is ready and returns an appropriate response.
 func HealthReadyHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		_, err := services.FetchFromFile()
@@ -44,7 +46,8 @@ func HealthReadyHandler() gin.HandlerFunc {
 
 }
 
-// HealthReadyServiceHandler ...
+// HealthReadyServiceHandler handles requests to check the health readiness of a service and returns a response
+// indicating whether the service is ready or not.
 func HealthReadyServiceHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		service := c.Param("service")
